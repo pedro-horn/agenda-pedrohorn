@@ -1,0 +1,17 @@
+{
+  "name": "Assessor · Horn Films",
+  "short_name": "Assessor",
+  "description": "Agenda, jobs e entregas do Pedro Horn",
+  "lang": "pt-BR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#141413",
+  "theme_color": "#141413",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
