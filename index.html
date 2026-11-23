@@ -791,6 +791,7 @@ Diga o que é prioridade hoje, avise atrasos e sugira uma ordem prática. Não i
       <div class="actions">
         <button class="btn sec" data-set="export">Exportar backup (.json)</button>
         <button class="btn sec" data-set="import">Importar backup</button>
+        ${userInfo && window.__enablePush ? `<button class="btn ${window.__pushOn ? "sec" : "pri"}" data-set="push">${window.__pushOn ? "Notificações ativas ✓ (reativar)" : "Ativar notificações"}</button>` : ""}
         ${userInfo && !window.__hasPassword ? `<button class="btn sec" data-set="senha">Criar senha para o celular</button>` : ""}
         ${userInfo ? `<button class="btn dan" data-set="logout">Sair da conta</button>` : ""}
       </div>
@@ -804,6 +805,10 @@ Diga o que é prioridade hoje, avise atrasos e sugira uma ordem prática. Não i
       }
       if(a==="import") $("#importFile").click();
       if(a==="logout"){ await store.logout(); location.reload(); }
+      if(a==="push"){
+        try{ await window.__enablePush(); window.__pushOn = true; toast("Notificações ativadas ✓"); closeSheet(); }
+        catch(e){ const m = String(e.message || e.code || e); toast(m==="negado" ? "Permissão negada. Libere em Ajustes do iPhone → Notificações → Assessor." : m==="sem-suporte" ? "Abra pelo app da tela inicial (iPhone com iOS 16.4+) para ativar." : "Erro: " + m); }
+      }
       if(a==="senha"){
         openSheet(`<div class="sh-head"><h2>Senha do <span class="ser">celular</span></h2><button class="back" data-close>Fechar</button></div>
           <div class="card note">Use esta senha com o e-mail <b>${esc(userInfo)}</b> para entrar no app instalado no iPhone. Os dados são os mesmos.</div>
@@ -880,6 +885,21 @@ Diga o que é prioridade hoje, avise atrasos e sugira uma ordem prática. Não i
     userInfo = user.email;
     window.__hasPassword = user.providerData.some(p=>p.providerId==="password");
     window.__linkPassword = async pwd => { await A.linkWithCredential(user, A.EmailAuthProvider.credential(user.email, pwd)); };
+    window.__enablePush = async () => {
+      if(!("Notification" in window) || !("serviceWorker" in navigator)) throw new Error("sem-suporte");
+      const perm = await Notification.requestPermission();
+      if(perm !== "granted") throw new Error("negado");
+      const M = await import(base + "firebase-messaging.js");
+      if(!(await M.isSupported())) throw new Error("sem-suporte");
+      const reg = await navigator.serviceWorker.ready;
+      const token = await M.getToken(M.getMessaging(app), { vapidKey: window.ASSESSOR_CONFIG.vapidKey, serviceWorkerRegistration: reg });
+      if(!token) throw new Error("sem-token");
+      const id = token.slice(-60).replace(/[^\w-]/g, "_");
+      await F.setDoc(F.doc(db, "users", user.uid, "tokens", id), { token, criadoEm: new Date().toISOString(), aparelho: navigator.userAgent.slice(0, 140) });
+      return true;
+    };
+    window.__pushOn = ("Notification" in window) && Notification.permission === "granted";
+    if(window.__pushOn && window.ASSESSOR_CONFIG.vapidKey) window.__enablePush().catch(()=>{});
     const ref = (name, id) => F.doc(db, "users", user.uid, name, id);
     return {
       col: name => ({ doc: id => ({
