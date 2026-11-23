@@ -294,6 +294,13 @@ input[type=date],input[type=time]{min-height:46px}
   <h2>Seu <span class="ser">assessor</span></h2>
   <p>Agenda, jobs e entregas. Entre com a sua conta Google para sincronizar celular e computador.</p>
   <button class="btn pri full" id="loginBtn">Entrar com o Google</button>
+  <div class="sec-t" style="text-align:center;margin:18px 0 10px">ou com e-mail e senha</div>
+  <form id="emailForm" style="display:grid;gap:8px">
+    <input type="email" id="lgEmail" placeholder="seu e-mail" autocomplete="username" required>
+    <input type="password" id="lgPass" placeholder="senha" autocomplete="current-password" required>
+    <button class="btn sec full" type="submit">Entrar</button>
+  </form>
+  <p style="font-size:12px;margin:12px 0 0">No app instalado no iPhone, entre com e-mail e senha. Crie a senha em Ajustes (engrenagem) depois de entrar com o Google pelo Safari ou computador.</p>
   <div class="err" id="loginErr"></div>
 </div></div>
 <input type="file" id="importFile" accept="application/json,.json" style="display:none">
@@ -784,6 +791,7 @@ Diga o que é prioridade hoje, avise atrasos e sugira uma ordem prática. Não i
       <div class="actions">
         <button class="btn sec" data-set="export">Exportar backup (.json)</button>
         <button class="btn sec" data-set="import">Importar backup</button>
+        ${userInfo && !window.__hasPassword ? `<button class="btn sec" data-set="senha">Criar senha para o celular</button>` : ""}
         ${userInfo ? `<button class="btn dan" data-set="logout">Sair da conta</button>` : ""}
       </div>
       <div class="card note" style="margin-top:14px">Dica: no iPhone, abra no Safari → Compartilhar → <b>Adicionar à Tela de Início</b> para usar como app.</div>`);
@@ -796,6 +804,17 @@ Diga o que é prioridade hoje, avise atrasos e sugira uma ordem prática. Não i
       }
       if(a==="import") $("#importFile").click();
       if(a==="logout"){ await store.logout(); location.reload(); }
+      if(a==="senha"){
+        openSheet(`<div class="sh-head"><h2>Senha do <span class="ser">celular</span></h2><button class="back" data-close>Fechar</button></div>
+          <div class="card note">Use esta senha com o e-mail <b>${esc(userInfo)}</b> para entrar no app instalado no iPhone. Os dados são os mesmos.</div>
+          <form id="pwForm"><div class="fld"><label>Nova senha (mínimo 6 caracteres)</label><input type="password" id="pw1" minlength="6" required autocomplete="new-password"></div>
+          <div class="actions"><button class="btn pri full">Salvar senha</button></div></form>`);
+        $("#pwForm").onsubmit = async ev=>{
+          ev.preventDefault();
+          try{ await window.__linkPassword($("#pw1").value); window.__hasPassword = true; toast("Senha criada ✓"); closeSheet(); }
+          catch(e){ const c = String(e.code||""); toast(c.includes("requires-recent-login") ? "Saia e entre de novo com o Google, depois crie a senha." : c.includes("weak-password") ? "Senha fraca: use 6+ caracteres." : "Erro: " + c); }
+        };
+      }
     };
   };
   $("#importFile").addEventListener("change", async e=>{
@@ -844,13 +863,23 @@ Diga o que é prioridade hoje, avise atrasos e sugira uma ordem prática. Não i
       $("#login").classList.add("on");
       $("#loginBtn").onclick = async ()=>{
         const prov = new A.GoogleAuthProvider();
-        const standalone = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
-        try{ if(standalone) await A.signInWithRedirect(auth, prov); else { await A.signInWithPopup(auth, prov); location.reload(); } }
-        catch(e){ if(String(e.code).includes("popup")) await A.signInWithRedirect(auth, prov); else $("#loginErr").textContent = "Erro ao entrar: " + (e.code||e.message); }
+        try{ await A.signInWithPopup(auth, prov); location.reload(); }
+        catch(e){
+          const c = String(e.code||"");
+          if(c.includes("popup-blocked") || c.includes("operation-not-supported")){ await A.signInWithRedirect(auth, prov); return; }
+          $("#loginErr").textContent = c.includes("popup-closed") ? "Login cancelado. No app instalado, use e-mail e senha abaixo." : "Erro ao entrar: " + (c||e.message);
+        }
+      };
+      $("#emailForm").onsubmit = async ev=>{
+        ev.preventDefault();
+        try{ await A.signInWithEmailAndPassword(auth, $("#lgEmail").value.trim(), $("#lgPass").value); location.reload(); }
+        catch(e){ const c = String(e.code||""); $("#loginErr").textContent = /invalid-credential|wrong-password|user-not-found|invalid-login/.test(c) ? "E-mail ou senha incorretos. Crie a senha em Ajustes depois de entrar com o Google." : "Erro ao entrar: " + c; }
       };
       return null;
     }
     userInfo = user.email;
+    window.__hasPassword = user.providerData.some(p=>p.providerId==="password");
+    window.__linkPassword = async pwd => { await A.linkWithCredential(user, A.EmailAuthProvider.credential(user.email, pwd)); };
     const ref = (name, id) => F.doc(db, "users", user.uid, name, id);
     return {
       col: name => ({ doc: id => ({
