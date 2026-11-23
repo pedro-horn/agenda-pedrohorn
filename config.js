@@ -10,6 +10,9 @@ window.ASSESSOR_CONFIG = {
     appId: "1:297688812408:web:e4166099977658512a168d"
   },
 
+  // Chave pública de notificações (Firebase → Cloud Messaging → Certificados push da Web)
+  vapidKey: "BIn05ViiTAEsX98wIAAxahvKzRJLMilNyRVRNOYrfyhy0bv2-ZyJqULXKFeqlBWCVVjD8bvrjDetnGxkenURPbE",
+
   // Cada conta Google só enxerga os próprios dados (regras do Firestore).
   // Para travar o acesso em contas específicas, liste os e-mails aqui. Ex.: ["voce@gmail.com"]
   allowedEmails: []
