@@ -1,9 +1,33 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Cada conta só lê e escreve os próprios dados: users/{uid}/items e users/{uid}/entregas
+    // O e-mail do dono fica só no console do Firebase (troque DONO_EMAIL abaixo ao colar lá).
+    function dono() { return request.auth != null && request.auth.token.email == 'DONO_EMAIL'; }
+    function membro() {
+      return request.auth != null && request.auth.token.email_verified == true
+        && request.auth.token.email.lower() in get(/databases/$(database)/documents/config/equipe).data.emails;
+    }
+    function quem() { return dono() || membro(); }
+
+    // Dados pessoais: cada conta só lê e escreve os próprios
     match /users/{uid}/{document=**} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+    // Lista da equipe da agência: só o dono altera
+    match /config/equipe {
+      allow read: if quem();
+      allow write: if dono();
+    }
+    // Jobs enviados pela página /agenda: todos da equipe veem todos
+    match /jobs/{id} {
+      allow read: if quem();
+      allow create: if quem() && request.resource.data.enviadoPor.uid == request.auth.uid
+                    && request.resource.data.status == 'novo';
+      allow update: if dono() || (membro() && resource.data.enviadoPor.uid == request.auth.uid
+                    && resource.data.status == 'novo'
+                    && request.resource.data.enviadoPor == resource.data.enviadoPor
+                    && request.resource.data.status == 'novo');
+      allow delete: if dono() || (membro() && resource.data.enviadoPor.uid == request.auth.uid && resource.data.status == 'novo');
     }
   }
 }

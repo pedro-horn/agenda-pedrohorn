@@ -2,6 +2,7 @@
 // Roda no GitHub Actions a cada 10 min. Lê a agenda no Firestore e manda push pelo Firebase Cloud Messaging:
 //  - 1h antes de cada item com horário (não concluído)
 //  - às 20h, resumo do dia seguinte (só se tiver algo)
+//  - "Novo job" quando alguém da agência envia um job pela página /agenda (só para o dono)
 // Não imprime títulos nem dados da agenda nos logs (o repositório é público).
 import { initializeApp, cert } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
@@ -38,6 +39,8 @@ async function main() {
   const db = getFirestore(), fcm = getMessaging();
   const now = Date.now(), { hoje, amanha, hora } = agoraLocal(now);
   let enviadosTotal = 0;
+  const eqSnap = await db.collection("config").doc("equipe").get();
+  const donoUid = eqSnap.exists ? eqSnap.data().donoUid : null;
 
   for (const userRef of await db.collection("users").listDocuments()) {
     const tokSnap = await userRef.collection("tokens").get();
@@ -49,8 +52,26 @@ async function main() {
     const enviados = meta.enviados || {};
     const itensSnap = await userRef.collection("items").where("date", "in", [hoje, amanha]).get();
     const itens = itensSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-
+    let ultimoJob = meta.ultimoJob || null;
     const msgs = [];
+    if (userRef.id === donoUid) {
+      const jobsSnap = await db.collection("jobs").where("dataEntrega", "in", [hoje, amanha]).get();
+      for (const d of jobsSnap.docs) {
+        const j = d.data();
+        itens.push({ id: "job_" + d.id, title: j.titulo, date: j.dataEntrega, time: j.hora || null, project: j.cliente, done: j.status === "entregue" });
+      }
+      // jobs novos desde a última rodada
+      const desde = ultimoJob || new Date(now).toISOString();
+      const novosSnap = await db.collection("jobs").where("criadoEm", ">", desde).get();
+      const novos = novosSnap.docs.map(d => d.data()).sort((a, b) => a.criadoEm.localeCompare(b.criadoEm));
+      if (ultimoJob) for (const j of novos.slice(0, 5)) {
+        const [y, m, dd] = (j.dataEntrega || "").split("-");
+        const nome = ((j.enviadoPor && j.enviadoPor.nome) || "Agência").trim().split(/\s+/)[0];
+        msgs.push({ title: `Novo job · ${nome}`, body: `${curto(j.titulo, 70)} · ${j.cliente || ""}${dd ? ` · entrega ${dd}/${m}` : ""}${j.hora ? " " + j.hora : ""}` });
+      }
+      ultimoJob = novos.length ? novos[novos.length - 1].criadoEm : desde;
+    }
+
     for (const i of devidos1h(itens, now, enviados)) {
       msgs.push({ title: `Em 1h · ${i.time}`, body: curto(i.title, 90) + (i.project ? ` · ${i.project}` : "") + (i.location ? ` · ${curto(i.location, 40)}` : "") });
       enviados[`${i.id}@${i.date}T${i.time}`] = now;
@@ -75,7 +96,7 @@ async function main() {
     }
     // guarda só os envios recentes (2 dias)
     for (const k of Object.keys(enviados)) if (now - enviados[k] > 2 * 864e5) delete enviados[k];
-    await metaRef.set({ enviados, vespera: vespera || null, atualizadoEm: new Date(now).toISOString() });
+    await metaRef.set({ enviados, vespera: vespera || null, ultimoJob, atualizadoEm: new Date(now).toISOString() });
   }
   console.log(`OK · notificações enviadas: ${enviadosTotal}`);
 }

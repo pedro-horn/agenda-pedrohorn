@@ -6,16 +6,14 @@
 <meta name="theme-color" content="#141413">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Newsreader:ital,opsz,wght@1,6..72,400&family=JetBrains+Mono:wght@400;600&display=swap">
-<title>Assessor · Horn Films</title>
-<meta name="description" content="Agenda, jobs e entregas do Pedro Horn">
+<title>Jobs · Horn Films</title>
 <link rel="manifest" href="manifest.webmanifest">
+<meta name="description" content="Envie seus jobs para a Horn Films">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Assessor">
-<script src="config.js"></script>
+<meta name="apple-mobile-web-app-title" content="Jobs Horn">
+<script src="config.js?v=5"></script>
 <style>
 :root{
   /* identidade Horn Films (mesma do portfólio) */
@@ -218,92 +216,71 @@ input[type=date],input[type=time]{min-height:46px}
 @media (max-width:480px){.sync{font-size:0;gap:0}.top h1{font-size:22px}}
 .calbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 </style>
+<style>
+.warnbox{font-size:13px;color:var(--ambar);background:var(--ambar-fundo);border:1px solid var(--ambar-borda);border-radius:10px;padding:10px 12px;margin:-4px 0 12px;display:none}
+.warnbox.on{display:block}
+.warnbox b{color:var(--tinta)}
+.warnbox ul{margin:6px 0 0 16px}
+.who{font-size:12px;color:var(--tinta3);margin-top:6px}
+.tabs2{display:flex;gap:6px;margin:4px 0 2px}
+.fabwrap{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(transparent,rgba(20,20,19,.95) 35%);z-index:5}
+.fabwrap .btn{max-width:620px;margin:0 auto;display:block;width:100%;background:var(--rec);color:#fff;font-size:16px}
+.login .tog{background:none;border:0;color:var(--tinta2);font-size:13px;text-decoration:underline;margin-top:10px;cursor:pointer}
+.pill.novo{background:var(--azul-fundo);border-color:var(--azul-borda);color:var(--azul)}
+</style>
 </head>
 <body>
 <div class="wrap">
   <div class="top">
     <div class="logo" aria-label="Horn Films"><svg viewBox="0 0 680 400" aria-hidden="true"><g transform="translate(15,15)" fill="none" stroke="#ECEBE3" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"><path d="M110 92 L100 268"/><path d="M192 72 L184 270"/><path d="M58 190 L222 172"/><path d="M300 128 C254 122 238 205 262 254 C284 290 346 268 350 206 C354 150 336 118 300 128"/><path d="M388 96 L380 272"/><path d="M388 100 C456 82 478 150 414 192 L386 198"/><path d="M416 192 L466 272"/><path d="M502 272 L510 104 L570 264 L582 78"/></g><circle cx="316" cy="215" r="13" fill="#FF4A2B"/><circle cx="127" cy="333" r="14" fill="#ECEBE3"/></svg></div>
-    <div><h1 id="hTitle">Sua <span class="ser">agenda</span></h1><p id="hSub">Agenda, jobs e entregas</p></div>
+    <div><h1 id="hTitle">Seus <span class="ser">jobs</span></h1><p id="hSub">Horn Films · envio de jobs</p></div>
     <div class="sync" id="status">Conectando…</div>
-    <button class="gear" id="gearBtn" aria-label="Ajustes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+    <button class="gear" id="gearBtn" aria-label="Conta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button>
   </div>
-  <div class="banner" id="localBanner">Modo local: os dados ficam só neste aparelho. Configure o Firebase (veja o README) para sincronizar celular e computador.</div>
 
-
-  <!-- AGENDA -->
-  <section class="view on" id="view-agenda">
-    <div class="card monthnav">
-      <button class="nbtn" id="prevM" aria-label="Mês anterior">‹</button>
-      <b id="monthLabel"></b>
-      <button class="nbtn" id="nextM" aria-label="Próximo mês">›</button>
-    </div>
-    <div class="stats">
-      <div class="card stat"><small>Para hoje</small><b id="sToday">0</b><span id="sTodaySub">em aberto</span></div>
-      <div class="card stat red"><small>Atrasados</small><b id="sLate">0</b><span>jobs com prazo vencido</span></div>
-      <div class="card stat"><small>Próximos 7 dias</small><b id="sWeek">0</b><span>na agenda</span></div>
-      <div class="card stat"><small>Jobs em aberto</small><b id="sOpen">0</b><span>a entregar</span></div>
-    </div>
-
-    <div class="card cal" id="cal">
-      <div class="cal-dow"><div>D</div><div>S</div><div>T</div><div>Q</div><div>Q</div><div>S</div><div>S</div></div>
-      <div class="cal-days" id="days"></div>
-    </div>
-
-    <div class="chips" id="filters">
-      <button class="chip on" data-f="all">Tudo</button>
-      <button class="chip" data-f="pro">Trabalho</button>
-      <button class="chip" data-f="pessoal">Pessoal</button>
-      
-    </div>
-    <div class="card brief" id="brief"><h3 class="mono" style="font-size:11px">● Resumo do assessor</h3><p id="briefTxt"></p></div>
-
-    <div id="agendaList"></div>
-  </section>
-
-  <!-- ENTREGAS -->
-  <section class="view" id="view-entregas">
-    <div class="card monthnav">
-      <button class="nbtn" id="ePrev" aria-label="Mês anterior">‹</button>
-      <b id="eMonth"></b>
-      <button class="nbtn" id="eNext" aria-label="Próximo mês">›</button>
-    </div>
-    <div class="stats">
-      <div class="card stat"><small>Projetos entregues</small><b id="eCount">0</b><span>no mês</span></div>
-      <div class="card stat"><small>Alterações</small><b id="eRevs">0</b><span id="eAvg">—</span></div>
-      <div class="card stat"><small>Clientes atendidos</small><b id="eClients">0</b><span>no mês</span></div>
-      <div class="card stat"><small>Faturado</small><b id="eMoney">—</b><span>nas entregas com valor</span></div>
-    </div>
-    <div class="dayhead muted"><b>Projetos entregues</b><em id="eCount2">0</em></div>
-    <div id="eList"></div>
-    <div class="dayhead muted"><b>Por agência e cliente</b></div>
-    <div class="card bars" id="eClientsList"></div>
-  </section>
+  <div class="card monthnav">
+    <button class="nbtn" id="prevM" aria-label="Mês anterior">‹</button>
+    <b id="monthLabel"></b>
+    <button class="nbtn" id="nextM" aria-label="Próximo mês">›</button>
+  </div>
+  <div class="stats">
+    <div class="card stat"><small>Jobs no mês</small><b id="sMes">0</b><span>agendados</span></div>
+    <div class="card stat"><small>Próximos 7 dias</small><b id="sSemana">0</b><span>para entregar</span></div>
+  </div>
+  <div class="card cal">
+    <div class="cal-dow"><div>D</div><div>S</div><div>T</div><div>Q</div><div>Q</div><div>S</div><div>S</div></div>
+    <div class="cal-days" id="days"></div>
+  </div>
+  <div class="chips" id="filters">
+    <button class="chip on" data-f="todos">Todos os jobs</button>
+    <button class="chip" data-f="meus">Só os meus</button>
+  </div>
+  <div id="lista"></div>
 </div>
 
-<nav class="tabbar"><div class="tabbar-in">
-  <a class="tab on" href="#agenda" data-tab="agenda"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Agenda</a>
-  <button class="fab" id="fab" aria-label="Adicionar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
-  <a class="tab" href="#entregas" data-tab="entregas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 9.5 17.5 4 12"/></svg>Entregas</a>
-</div></nav>
+<div class="fabwrap"><button class="btn" id="novoBtn">+ Enviar novo job</button></div>
 
 <div class="sheet-bg" id="sheetBg"></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="grab"></div><div id="sheetBody"></div></div>
 <div class="toast" id="toast"></div>
-<div class="login" id="login"><div class="login-in">
-  <svg class="lg" viewBox="0 0 680 400" aria-hidden="true"><g transform="translate(15,15)" fill="none" stroke="#ECEBE3" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M110 92 L100 268"/><path d="M192 72 L184 270"/><path d="M58 190 L222 172"/><path d="M300 128 C254 122 238 205 262 254 C284 290 346 268 350 206 C354 150 336 118 300 128"/><path d="M388 96 L380 272"/><path d="M388 100 C456 82 478 150 414 192 L386 198"/><path d="M416 192 L466 272"/><path d="M502 272 L510 104 L570 264 L582 78"/></g><circle cx="316" cy="215" r="10" fill="#FF4A2B"/><circle cx="127" cy="333" r="11" fill="#ECEBE3"/><text x="605" y="351" text-anchor="end" fill="#ECEBE3" font-family="JetBrains Mono, monospace" font-size="20" letter-spacing="10">FILMS</text></svg>
-  <h2>Seu <span class="ser">assessor</span></h2>
-  <p>Agenda, jobs e entregas. Entre com a sua conta Google para sincronizar celular e computador.</p>
-  <button class="btn pri full" id="loginBtn">Entrar com o Google</button>
-  <div class="sec-t" style="text-align:center;margin:18px 0 10px">ou com e-mail e senha</div>
-  <form id="emailForm" style="display:grid;gap:8px">
-    <input type="email" id="lgEmail" placeholder="seu e-mail" autocomplete="username" required>
-    <input type="password" id="lgPass" placeholder="senha" autocomplete="current-password" required>
-    <button class="btn sec full" type="submit">Entrar</button>
-  </form>
-  <p style="font-size:12px;margin:12px 0 0">No app instalado no iPhone, entre com e-mail e senha. Crie a senha em Ajustes (engrenagem) depois de entrar com o Google pelo Safari ou computador.</p>
+
+<div class="login on" id="login"><div class="login-in">
+  <div style="width:150px;margin-bottom:20px"><div aria-label="Horn Films"><svg viewBox="0 0 680 400" aria-hidden="true"><g transform="translate(15,15)" fill="none" stroke="#ECEBE3" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"><path d="M110 92 L100 268"/><path d="M192 72 L184 270"/><path d="M58 190 L222 172"/><path d="M300 128 C254 122 238 205 262 254 C284 290 346 268 350 206 C354 150 336 118 300 128"/><path d="M388 96 L380 272"/><path d="M388 100 C456 82 478 150 414 192 L386 198"/><path d="M416 192 L466 272"/><path d="M502 272 L510 104 L570 264 L582 78"/></g><circle cx="316" cy="215" r="13" fill="#FF4A2B"/><circle cx="127" cy="333" r="14" fill="#ECEBE3"/></svg></div></div>
+  <h2>Envie seu <span class="ser">job</span></h2>
+  <p id="loginTxt">Entre com a sua conta para mandar jobs para a Horn Films e ver a agenda de entregas.</p>
+  <div id="loginArea">
+    <button class="btn pri full" id="googleBtn">Entrar com o Google</button>
+    <div class="sec-t" style="text-align:center;margin:18px 0 10px">ou com e-mail e senha</div>
+    <form id="emailForm" style="display:grid;gap:8px">
+      <input id="lgNome" placeholder="seu nome" autocomplete="name" style="display:none">
+      <input type="email" id="lgEmail" placeholder="seu e-mail" autocomplete="username" required>
+      <input type="password" id="lgPass" placeholder="senha (mínimo 6 caracteres)" autocomplete="current-password" required minlength="6">
+      <button class="btn sec full" type="submit" id="emailBtn">Entrar</button>
+    </form>
+    <button class="tog" id="togCriar">Primeiro acesso? Criar conta com e-mail e senha</button>
+  </div>
   <div class="err" id="loginErr"></div>
 </div></div>
-<input type="file" id="importFile" accept="application/json,.json" style="display:none">
 
 <script>
 (() => {
@@ -314,620 +291,269 @@ input[type=date],input[type=time]{min-height:46px}
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const MONTHS = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
   const WD = ["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"];
-  const WDs = ["dom","seg","ter","qua","qui","sex","sáb"];
   const fmtD = s => { const d = parseISO(s); return `${pad(d.getDate())}/${pad(d.getMonth()+1)}`; };
+  const CLIENTES = ["Tree Tower","Cidade dos Lagos","Comtudo","Dal Pozzo","Saka","Colégio Start","Colégio Londrinense","Churrascaria Cabaña"];
+  const TIPOS = ["Motion","Vídeo","Edição","Reels","Arte / post","Roteiro","Captação","Telas / painel","Outro"];
+  const STATUS = { novo:["Novo","novo"], producao:["Em produção","todo"], alteracao:["Em alteração","late"], entregue:["Entregue","ok"] };
 
-  const CLIENTS = [
-    ["Tree Tower","Agência Smart"],["Cidade dos Lagos","Agência Smart"],["Comtudo","Agência Smart"],["Dal Pozzo","Agência Smart"],["Saka","Agência Smart"],
-    ["Colégio Start","Agência Pubblicità"],["Colégio Londrinense","Agência Pubblicità"],["Churrascaria Cabaña","Agência Pubblicità"],
-    ["Dealer","Pessoal"],["Benvenutti","Pessoal"],["Porto Faria","Pessoal"],
-  ];
-  const GROUPS = ["Agência Smart","Agência Pubblicità","Pessoal","Outros"];
-  const JOB_TYPES = ["Motion","Vídeo","Edição","Arte / post","Roteiro","Identidade visual","Captação","Outro"];
-  const norm = s => String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().trim();
-  const groupOf = c => { const n = norm(c); if(!n) return "Outros"; const hit = CLIENTS.find(([k])=>{ const a=norm(k); return a===n || n.startsWith(a+" ") || a.includes(n) && n.length>3; }); return hit ? hit[1] : "Outros"; };
-  const agencyShort = g => g==="Agência Smart" ? "Smart" : g==="Agência Pubblicità" ? "Pubblicità" : g==="Pessoal" ? "Cliente direto" : "";
+  let now = new Date(), TODAY = iso(now), view = new Date(now.getFullYear(), now.getMonth(), 1);
+  let jobs = [], filtro = "todos", me = null, api = null, criar = false, dono = false, equipe = { emails: [] };
 
-  let now = new Date(), TODAY = iso(now);
-  let view = new Date(now.getFullYear(), now.getMonth(), 1);
-  let selected = null, filter = "all", calOpen = true;
-  let items = [], entregas = [];
-  let db = null, col = null, eCol = null, sample = null;
-  let eView = new Date(now.getFullYear(), now.getMonth(), 1);
-
-  function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2600); }
+  const toast = msg => { const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2800); };
   const setStatus = s => $("#status").textContent = s;
-  const hour = now.getHours();
-  $("#hSub").textContent = `${hour<5?"Boa noite":hour<12?"Bom dia":hour<18?"Boa tarde":"Boa noite"} · ${WDs[now.getDay()]} ${now.getDate()}/${pad(now.getMonth()+1)}`;
+  const meuJob = j => me && j.enviadoPor && j.enviadoPor.uid === me.uid;
+  const primeiroNome = n => String(n||"").trim().split(/\s+/)[0] || "alguém";
 
-  const isLate = i => !i.done && i.kind!=="evento" && i.date && i.date < TODAY;
-  const passFilter = i => filter==="all" || i.area===filter;
-  const sortItems = (a,b) => (a.date||"9999").localeCompare(b.date||"9999") || (a.time||"99").localeCompare(b.time||"99");
-  const kindLabel = i => i.kind==="evento" ? "Compromisso" : (i.area==="pessoal" ? "Tarefa" : "Job");
-
-  /* ================= AGENDA ================= */
-  function render(){ renderStats(); renderCal(); renderAgenda(); }
-
-  function renderStats(){
-    const in7 = iso(new Date(now.getFullYear(), now.getMonth(), now.getDate()+7));
-    $("#sToday").textContent = items.filter(i=>i.date===TODAY && !i.done).length;
-    $("#sLate").textContent = items.filter(isLate).length;
-    $("#sWeek").textContent = items.filter(i=>!i.done && i.date && i.date>TODAY && i.date<=in7).length;
-    $("#sOpen").textContent = items.filter(i=>i.area==="pro" && i.kind!=="evento" && !i.done).length;
-  }
-
-  function renderCal(){
+  /* ---------- render ---------- */
+  function render(){
     $("#monthLabel").textContent = `${MONTHS[view.getMonth()]} de ${view.getFullYear()}`;
+    const mk = `${view.getFullYear()}-${pad(view.getMonth()+1)}`;
+    const in7 = iso(new Date(now.getFullYear(), now.getMonth(), now.getDate()+7));
+    $("#sMes").textContent = jobs.filter(j=>(j.dataEntrega||"").startsWith(mk)).length;
+    $("#sSemana").textContent = jobs.filter(j=>j.status!=="entregue" && j.dataEntrega>=TODAY && j.dataEntrega<=in7).length;
+    // calendário
+    const by = {}; jobs.forEach(j=>{ if(j.dataEntrega) (by[j.dataEntrega] ||= []).push(j); });
     const start = new Date(view.getFullYear(), view.getMonth(), 1 - view.getDay());
-    const by = {}; items.filter(passFilter).forEach(i=>{ if(i.date) (by[i.date] ||= []).push(i); });
     let h = "";
     for(let k=0;k<42;k++){
       const d = new Date(start.getFullYear(), start.getMonth(), start.getDate()+k), key = iso(d);
       if(k%7===0 && k>0 && d.getMonth()!==view.getMonth() && d > view) break;
       const l = by[key]||[];
-      const dots = l.slice(0,3).map(i=>`<u class="${i.area}"></u>`).join("");
-      h += `<button class="cd ${d.getMonth()!==view.getMonth()?"out":""} ${key===TODAY?"today":""} ${key===selected?"sel":""}" data-d="${key}"><span>${d.getDate()}</span><i>${dots}</i></button>`;
+      h += `<button class="cd ${d.getMonth()!==view.getMonth()?"out":""} ${key===TODAY?"today":""}" data-d="${key}"><span>${d.getDate()}</span><i>${l.slice(0,3).map(()=>"<u></u>").join("")}</i></button>`;
     }
     $("#days").innerHTML = h;
+    // lista
+    const vis = jobs.filter(j => (j.dataEntrega||"").startsWith(mk) && (filtro==="todos" || meuJob(j)));
+    const g = {}; vis.forEach(j => (g[j.dataEntrega] ||= []).push(j));
+    const keys = Object.keys(g).sort();
+    $("#lista").innerHTML = keys.length ? keys.map(k => {
+      const l = g[k].sort((a,b)=>(a.hora||"99").localeCompare(b.hora||"99")), d = parseISO(k);
+      return `<div class="dayhead ${k===TODAY?"today":""}" id="d-${k}"><b>${k===TODAY?"Hoje":WD[d.getDay()]}</b><span>${fmtD(k)}</span><em>${l.length}</em></div>` + l.map(card).join("");
+    }).join("") : `<div class="card empty">Nenhum job em ${MONTHS[view.getMonth()].toLowerCase()}${filtro==="meus"?" enviado por você":""}.<br>Toque em <b>Enviar novo job</b>.</div>`;
+  }
+  function card(j){
+    const st = STATUS[j.status] || STATUS.novo;
+    return `<button class="card it pro" data-id="${j.id}" style="${meuJob(j)?"border-left-color:var(--rec)":""}">
+      <div class="hr ${j.hora?"":"nt"}">${j.hora || "entrega"}</div>
+      <div class="bd"><div class="tt">${esc(j.titulo)}</div>
+        <div class="pills"><span class="pill">${esc(j.cliente)}</span>${j.tipo?`<span class="pill">${esc(j.tipo)}</span>`:""}<span class="pill ${st[1]}">${st[0]}</span></div>
+        <div class="who">por ${meuJob(j) ? "você" : esc(primeiroNome(j.enviadoPor && j.enviadoPor.nome))}</div></div></button>`;
   }
 
-  function pillsFor(i){
-    const p = [];
-    if(i.project){ const g = groupOf(i.project); p.push(`<span class="pill">${esc(i.project)}${g!=="Outros"&&g!=="Pessoal"?" · "+agencyShort(g):""}</span>`); }
-    if(i.jobType) p.push(`<span class="pill">${esc(i.jobType)}</span>`);
-    if(i.area==="pessoal") p.push(`<span class="pill ps">Pessoal</span>`);
-    if(i.done) p.push(`<span class="pill ok">${i.kind==="evento"?"Realizado":"Entregue"}</span>`);
-    else if(isLate(i)) p.push(`<span class="pill late">Atrasado</span>`);
-    else if(i.prio==="alta") p.push(`<span class="pill late">Urgente</span>`);
-    else if(i.date===TODAY) p.push(`<span class="pill now">Hoje</span>`);
-    else if(i.kind!=="evento") p.push(`<span class="pill todo">A fazer</span>`);
-    return p.join("");
-  }
-  function itemCard(i){
-    const hr = i.time ? `<div class="hr">${i.time}</div>` : `<div class="hr nt">${i.kind==="evento"?"dia todo":"prazo"}</div>`;
-    const sub = [i.location, i.notes && !i.location ? i.notes.split("\n")[0].slice(0,80) : null].filter(Boolean)[0];
-    return `<button class="card it ${i.area} ${i.done?"done":""}" data-id="${i.id}">${hr}<div class="bd"><div class="tt">${esc(i.title)}</div>${sub?`<div class="sub">${esc(sub)}</div>`:""}<div class="pills">${pillsFor(i)}</div></div></button>`;
-  }
-  function dayHead(key, n, cls=""){
-    const d = parseISO(key);
-    return `<div class="dayhead ${key===TODAY?"today":""} ${cls}" id="d-${key}"><b>${key===TODAY?"Hoje":WD[d.getDay()]}</b><span>${fmtD(key)}</span><em>${n}</em></div>`;
-  }
-
-  function renderAgenda(){
-    const mk = `${view.getFullYear()}-${pad(view.getMonth()+1)}`;
-    const vis = items.filter(passFilter);
-    let h = "";
-    const late = vis.filter(isLate).sort(sortItems);
-    if(late.length && mk>=TODAY.slice(0,7)) h += `<div class="dayhead warn"><b>Atrasados</b><em>${late.length}</em></div>` + late.map(itemCard).join("");
-    const by = {};
-    vis.filter(i=>i.date && i.date.startsWith(mk) && !isLate(i)).forEach(i=>(by[i.date] ||= []).push(i));
-    const keys = Object.keys(by).sort();
-    keys.forEach(k=>{ const l = by[k].sort(sortItems); h += dayHead(k, l.length) + l.map(itemCard).join(""); });
-    const nodate = vis.filter(i=>!i.date && !i.done);
-    if(nodate.length && mk===TODAY.slice(0,7)) h += `<div class="dayhead muted"><b>Sem data</b><em>${nodate.length}</em></div>` + nodate.map(itemCard).join("");
-    $("#agendaList").innerHTML = h || `<div class="card empty">Nada na agenda em ${MONTHS[view.getMonth()].toLowerCase()}.<br>Toque no <b>+</b> para adicionar um job ou compromisso.</div>`;
-  }
-
-  $("#days").addEventListener("click", e=>{
-    const b = e.target.closest("[data-d]"); if(!b) return;
-    selected = b.dataset.d; renderCal();
-    const el = document.getElementById("d-"+selected);
-    if(el) el.scrollIntoView({behavior:"smooth", block:"start"});
-    else openChooser(selected);
-  });
-  $("#prevM").onclick = ()=>{ view = new Date(view.getFullYear(), view.getMonth()-1, 1); render(); };
-  $("#nextM").onclick = ()=>{ view = new Date(view.getFullYear(), view.getMonth()+1, 1); render(); };
-  $("#filters").addEventListener("click", e=>{
-    const b = e.target.closest("[data-f]"); if(!b) return;
-    filter = b.dataset.f; document.querySelectorAll("#filters [data-f]").forEach(x=>x.classList.toggle("on", x===b)); render();
-  });
-  $("#agendaList").addEventListener("click", e=>{ const b = e.target.closest("[data-id]"); if(b){ const it = items.find(i=>i.id===b.dataset.id); if(it) openDetail(it); } });
-
-  /* ================= FOLHA (sheet) ================= */
-  const ICON = {
-    job:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10.5 5-3v9l-5-3"/></svg>`,
-    evento:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><circle cx="12" cy="15" r="1.4"/></svg>`,
-    pessoal:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>`,
-    entrega:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="m8.5 12.2 2.4 2.4 4.8-5"/></svg>`,
-  };
-  function openSheet(html){ $("#sheetBody").innerHTML = html; $("#sheetBg").classList.add("open"); $("#sheet").classList.add("open"); $("#sheet").scrollTop = 0; }
-  function closeSheet(){ $("#sheetBg").classList.remove("open"); $("#sheet").classList.remove("open"); }
+  /* ---------- sheet ---------- */
+  const openSheet = html => { $("#sheetBody").innerHTML = html; $("#sheetBg").classList.add("open"); $("#sheet").classList.add("open"); $("#sheet").scrollTop = 0; };
+  const closeSheet = () => { $("#sheetBg").classList.remove("open"); $("#sheet").classList.remove("open"); };
   $("#sheetBg").onclick = closeSheet;
-  document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeSheet(); });
-  $("#fab").onclick = ()=> location.hash==="#entregas" ? openEntrega(null) : openChooser(selected);
+  $("#sheet").addEventListener("click", e => { if(e.target.closest("[data-close]")) closeSheet(); });
+  document.addEventListener("keydown", e => { if(e.key==="Escape") closeSheet(); });
 
-  let chooserDate = null;
-  function openChooser(date){
-    chooserDate = date || null;
-    const d = date ? `<div class="note card">Para <b>${WD[parseISO(date).getDay()]}, ${fmtD(date)}</b></div>` : "";
-    openSheet(`
-      <div class="sh-head"><h2>O que vamos <span class="ser">adicionar?</span></h2><button class="back" data-close>Fechar</button></div>
-      ${d}
-      <button class="card opt" data-new="job"><div class="ico">${ICON.job}</div><div><b>Job de cliente</b><span>Uma demanda com prazo: motion, vídeo, arte, roteiro…</span></div></button>
-      <button class="card opt" data-new="evento"><div class="ico">${ICON.evento}</div><div><b>Gravação ou reunião</b><span>Compromisso de trabalho com dia, horário e local</span></div></button>
-      <button class="card opt" data-new="pessoal"><div class="ico ps">${ICON.pessoal}</div><div><b>Pessoal</b><span>Família, casa, saúde, contas, lembretes</span></div></button>
-      <button class="card opt" data-new="entrega"><div class="ico ok">${ICON.entrega}</div><div><b>Registrar entrega</b><span>Um projeto finalizado, com nº de alterações</span></div></button>
-      <div class="sec-t" id="quickT">Ou escreva do seu jeito</div>
-      <form class="card quick" id="quickForm"><input id="quickInput" autocomplete="off" placeholder="Ex.: reunião Tree Tower quinta 14h"><button class="btn pri" id="quickBtn">Adicionar</button></form>
-    `);
-    if(!sample){ $("#quickForm").style.display="none"; $("#quickT").style.display="none"; }
+  function conflitos(data, ignoreId){
+    return jobs.filter(j => j.dataEntrega === data && j.id !== ignoreId && j.status !== "entregue");
+  }
+  function avisoHTML(data, ignoreId){
+    const c = conflitos(data, ignoreId);
+    if(!data || !c.length) return "";
+    return `⚠️ Já ${c.length===1?"tem <b>1 job</b>":`tem <b>${c.length} jobs</b>`} com entrega em ${fmtD(data)}:<ul>${c.map(j=>`<li>${esc(j.titulo)} · ${esc(j.cliente)}${j.hora?" · "+j.hora:""} <span style="color:var(--tinta3)">(por ${meuJob(j)?"você":esc(primeiroNome(j.enviadoPor&&j.enviadoPor.nome))})</span></li>`).join("")}</ul><div style="margin-top:6px">Se puder, escolha outro dia ou combine com o Pedro.</div>`;
   }
 
-  function clientSelect(val){
-    const known = CLIENTS.some(([c])=>c===val);
-    const groups = GROUPS.filter(g=>g!=="Outros").map(g=>`<optgroup label="${g==="Pessoal"?"Clientes diretos":g}">${CLIENTS.filter(c=>c[1]===g).map(([c])=>`<option ${c===val?"selected":""}>${c}</option>`).join("")}</optgroup>`).join("");
-    return `<select id="fClient"><option value="">Selecione…</option>${groups}<option value="__outro" ${val&&!known?"selected":""}>Outro cliente…</option></select>
-      <input id="fClientOther" placeholder="Nome do cliente" style="margin-top:8px;${val&&!known?"":"display:none"}" value="${val&&!known?esc(val):""}">`;
-  }
-  const readClient = () => { const v = $("#fClient")?.value; return v==="__outro" ? ($("#fClientOther").value.trim()||null) : (v||null); };
-
-  function openForm(type, it){
-    const v = it || { date: chooserDate || "", time:"", prio:"normal" };
-    const editing = !!(it && it.id);
-    const titles = { job:"Job de cliente", evento:"Gravação ou reunião", pessoal:"Pessoal" };
-    const ic = { job:ICON.job, evento:ICON.evento, pessoal:ICON.pessoal }[type];
-    let body = "";
-    if(type==="job"){
-      body = `
-        <div class="sec-t">Dados do job</div>
-        <div class="fld"><label>Cliente</label>${clientSelect(v.project||"")}</div>
-        <div class="fld"><label>Nome do job</label><input id="fTitle" required value="${esc(v.title||"")}" placeholder="Ex.: Motion Black Friday"></div>
-        <div class="fld"><label>Tipo</label><select id="fType"><option value="">Selecione…</option>${JOB_TYPES.map(t=>`<option ${t===v.jobType?"selected":""}>${t}</option>`).join("")}</select></div>
-        <div class="sec-t">Prazo</div>
-        <div class="row2"><div class="fld"><label>Entregar até</label><input type="date" id="fDate" value="${v.date||""}"></div><div class="fld"><label>Horário <i>· opcional</i></label><input type="time" id="fTime" value="${v.time||""}"></div></div>
-        <label class="card check"><input type="checkbox" id="fPrio" ${v.prio==="alta"?"checked":""}><div class="bx"></div><div><b>É urgente</b><span>Aparece em destaque na agenda.</span></div></label>
-        <div class="fld"><label>Briefing / observações <i>· opcional</i></label><textarea id="fNotes" rows="3" placeholder="Formatos, referências, com quem falar…">${esc(v.notes||"")}</textarea></div>`;
-    } else if(type==="evento"){
-      body = `
-        <div class="sec-t">Sobre o compromisso</div>
-        <div class="fld"><label>O que é</label><input id="fTitle" required value="${esc(v.title||"")}" placeholder="Ex.: Gravação institucional"></div>
-        <div class="fld"><label>Cliente <i>· opcional</i></label>${clientSelect(v.project||"")}</div>
-        <div class="row2"><div class="fld"><label>Data</label><input type="date" id="fDate" required value="${v.date||""}"></div><div class="fld"><label>Horário</label><input type="time" id="fTime" value="${v.time||""}"></div></div>
-        <div class="fld"><label>Local <i>· opcional</i></label><input id="fLoc" value="${esc(v.location||"")}" placeholder="Endereço ou link da reunião"></div>
-        <div class="fld"><label>Observações <i>· opcional</i></label><textarea id="fNotes" rows="3" placeholder="Equipamento, roteiro, contato…">${esc(v.notes||"")}</textarea></div>`;
-    } else {
-      const isEv = v.kind==="evento" && editing;
-      body = `
-        <div class="sec-t">Lembrete pessoal</div>
-        <div class="fld"><label>O que é</label><input id="fTitle" required value="${esc(v.title||"")}" placeholder="Ex.: Ligar para a escola"></div>
-        <div class="fld"><label>Tipo</label><div class="seg" id="fKind"><button type="button" data-v="tarefa" class="${isEv?"":"on"}">Tarefa</button><button type="button" data-v="evento" class="${isEv?"on":""}">Compromisso</button></div></div>
-        <div class="row2"><div class="fld"><label>Data <i>· opcional</i></label><input type="date" id="fDate" value="${v.date||""}"></div><div class="fld"><label>Horário <i>· opcional</i></label><input type="time" id="fTime" value="${v.time||""}"></div></div>
-        <div class="fld"><label>Local <i>· opcional</i></label><input id="fLoc" value="${esc(v.location||"")}"></div>
-        <div class="fld"><label>Observações <i>· opcional</i></label><textarea id="fNotes" rows="3">${esc(v.notes||"")}</textarea></div>`;
-    }
+  function openForm(j){
+    const v = j || { dataEntrega: "" };
+    const known = !v.cliente || CLIENTES.includes(v.cliente);
     openSheet(`
-      <div class="sh-head"><button class="back" ${editing?"data-close":'data-back'}>‹ ${editing?"Fechar":"Trocar tipo"}</button></div>
-      <div class="card opt" style="cursor:default"><div class="ico ${type==="pessoal"?"ps":""}">${ic}</div><div><b>${editing?"Editar · ":""}${titles[type]}</b><span>${type==="job"?"Demanda de cliente com prazo de entrega":type==="evento"?"Compromisso de trabalho na agenda":"Só aparece no filtro Pessoal"}</span></div></div>
-      <form id="itemForm">${body}
-        <div class="actions"><button class="btn pri full" type="submit">${editing?"Salvar alterações":"Adicionar à agenda"}</button></div>
+      <div class="sh-head"><h2>${j ? "Editar" : "Novo"} <span class="ser">job</span></h2><button class="back" data-close>Fechar</button></div>
+      <form id="jobForm">
+        <div class="sec-t">Sobre o job</div>
+        <div class="fld"><label>Cliente</label>
+          <select id="fCli" required><option value="">Selecione…</option>${CLIENTES.map(c=>`<option ${c===v.cliente?"selected":""}>${c}</option>`).join("")}<option value="__outro" ${!known?"selected":""}>Outro cliente…</option></select>
+          <input id="fCliOutro" placeholder="Nome do cliente" style="margin-top:8px;${known?"display:none":""}" value="${known?"":esc(v.cliente)}"></div>
+        <div class="fld"><label>O que é o job</label><input id="fTit" required maxlength="140" value="${esc(v.titulo||"")}" placeholder="Ex.: Reels lançamento torre 2"></div>
+        <div class="fld"><label>Tipo</label><select id="fTipo"><option value="">Selecione…</option>${TIPOS.map(t=>`<option ${t===v.tipo?"selected":""}>${t}</option>`).join("")}</select></div>
+        <div class="sec-t">Entrega</div>
+        <div class="row2"><div class="fld"><label>Data de entrega</label><input type="date" id="fData" required ${j?"":`min="${TODAY}"`} value="${v.dataEntrega||""}"></div>
+          <div class="fld"><label>Horário <i>· opcional</i></label><input type="time" id="fHora" value="${v.hora||""}"></div></div>
+        <div class="warnbox" id="warn"></div>
+        <div class="fld"><label>Briefing / observações <i>· opcional</i></label><textarea id="fObs" rows="4" maxlength="2000" placeholder="Formatos, referências, textos, prioridades…">${esc(v.obs||"")}</textarea></div>
+        <div class="fld"><label>Link dos arquivos <i>· opcional</i></label><input id="fLink" type="url" maxlength="500" value="${esc(v.link||"")}" placeholder="Drive, WeTransfer…"></div>
+        <div class="actions"><button class="btn pri full" type="submit">${j ? "Salvar alterações" : "Enviar job"}</button></div>
       </form>`);
-    let pkind = (v.kind==="evento" && editing) ? "evento" : "tarefa";
-    $("#fKind")?.addEventListener("click", e=>{ const b=e.target.closest("button"); if(!b) return; pkind=b.dataset.v; document.querySelectorAll("#fKind button").forEach(x=>x.classList.toggle("on",x===b)); });
-    $("#fClient")?.addEventListener("change", e=>{ $("#fClientOther").style.display = e.target.value==="__outro" ? "" : "none"; if(e.target.value==="__outro") $("#fClientOther").focus(); });
-    $("#itemForm").addEventListener("submit", async e=>{
+    const upd = () => { const w=$("#warn"), html=avisoHTML($("#fData").value, j&&j.id); w.innerHTML=html; w.classList.toggle("on", !!html); };
+    $("#fData").addEventListener("change", upd); upd();
+    $("#fCli").addEventListener("change", e => { $("#fCliOutro").style.display = e.target.value==="__outro" ? "" : "none"; });
+    $("#jobForm").addEventListener("submit", async e => {
       e.preventDefault();
-      const title = $("#fTitle").value.trim(); if(!title) return;
-      const data = {
-        ...(it||{}), title,
-        kind: type==="job" ? "tarefa" : type==="evento" ? "evento" : pkind,
-        area: type==="pessoal" ? "pessoal" : "pro",
-        project: type==="pessoal" ? null : readClient(),
-        jobType: type==="job" ? ($("#fType").value||null) : null,
-        date: $("#fDate").value || null, time: $("#fTime").value || null,
-        location: $("#fLoc") ? ($("#fLoc").value.trim()||null) : null,
-        prio: type==="job" && $("#fPrio").checked ? "alta" : "normal",
-        notes: $("#fNotes").value.trim() || null,
-      };
-      if(type==="job" && !data.project){ toast("Escolha o cliente do job."); return; }
-      if(await save(data, editing ? "Atualizado" : "Adicionado à agenda")){
-        closeSheet();
-        if(data.date){ const d=parseISO(data.date); view = new Date(d.getFullYear(), d.getMonth(), 1); render(); }
-      }
-    });
-  }
-
-  function typeOf(i){ return i.area==="pessoal" ? "pessoal" : i.kind==="evento" ? "evento" : "job"; }
-  function openDetail(i){
-    const rows = [];
-    rows.push(["Tipo", kindLabel(i)+(i.jobType?` · ${esc(i.jobType)}`:"")]);
-    if(i.project){ const g=groupOf(i.project); rows.push(["Cliente", esc(i.project)+(g!=="Outros"?` <span style="color:var(--tinta3)">· ${g==="Pessoal"?"cliente direto":g}</span>`:"")]); }
-    rows.push([i.kind==="evento"?"Quando":"Prazo", i.date ? `${WD[parseISO(i.date).getDay()]}, ${fmtD(i.date)}${i.time?" · "+i.time:""}` : (i.time?`sem data · ${i.time}`:"sem data")]);
-    if(i.location) rows.push(["Local", esc(i.location)]);
-    const doneLbl = i.kind==="evento" ? (i.done?"Desmarcar como realizado":"Marcar como realizado") : (i.done?"Reabrir":"Marcar como feito");
-    openSheet(`
-      <div class="sh-head"><h2>${kindLabel(i)}</h2><button class="back" data-close>Fechar</button></div>
-      <div class="card det"><h3>${esc(i.title)}</h3><div class="pills">${pillsFor(i)}</div>
-        <dl>${rows.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>${i.notes?`<p>${esc(i.notes)}</p>`:""}</div>
-      <div class="actions">
-        <button class="btn pri" data-act="done">${doneLbl}</button>
-        ${i.area==="pro" && i.project ? `<button class="btn sec" data-act="deliver">✓ Registrar como entrega</button>` : ""}
-        ${i.date ? `<div class="sec-t" style="margin:10px 0 2px">Lembrete no celular</div><div class="calbtns"><button class="btn sec" data-act="gcal">Google Agenda</button><button class="btn sec" data-act="ics">Calendário iPhone</button></div>` : ""}
-        <button class="btn sec" data-act="edit">Editar</button>
-        <button class="btn dan" data-act="del">Excluir</button>
-      </div>`);
-    $("#sheetBody").onclick = async e=>{
-      const a = e.target.closest("[data-act]")?.dataset.act; if(!a) return;
-      if(a==="done"){ if(await save({...i, done:!i.done}, i.done?"Reaberto":"Feito ✓")) closeSheet(); }
-      if(a==="edit") openForm(typeOf(i), i);
-      if(a==="gcal") window.open(gcalUrl(i), "_blank");
-      if(a==="ics") downloadIcs(i);
-      if(a==="deliver") openEntrega({ client:i.project, project:i.title, date:TODAY, revisions:0, type:i.jobType, fromItem:i });
-      if(a==="del"){
-        const b = e.target.closest("[data-act]");
-        if(b.dataset.c!=="1"){ b.dataset.c="1"; b.textContent="Toque de novo para excluir"; return; }
-        try{ await col.doc(i.id).delete(); toast("Excluído"); closeSheet(); }catch(err){ toast("Não consegui excluir agora."); }
-      }
-    };
-  }
-
-  /* cliques gerais dentro da folha */
-  $("#sheet").addEventListener("click", e=>{
-    if(e.target.closest("[data-close]")) return closeSheet();
-    if(e.target.closest("[data-back]")) return openChooser(chooserDate);
-    const n = e.target.closest("[data-new]");
-    if(n){ const t = n.dataset.new; t==="entrega" ? openEntrega(chooserDate ? {date:chooserDate} : null) : openForm(t, null); }
-  });
-  $("#sheet").addEventListener("submit", e=>{ if(e.target.id==="quickForm"){ e.preventDefault(); quickAdd(); } });
-
-  /* ================= DADOS ================= */
-  async function save(it, msg){
-    if(!col){ toast("Sem conexão com os dados ainda."); return false; }
-    const id = it.id || `i${Date.now().toString(36)}${Math.random().toString(36).slice(2,6)}`;
-    const body = {
-      title: it.title, kind: it.kind||"tarefa", area: it.area||"pro",
-      date: it.date||null, time: it.time||null, project: it.project||null, jobType: it.jobType||null,
-      location: it.location||null, prio: it.prio||"normal", notes: it.notes||null, done: !!it.done,
-      createdAt: it.createdAt || new Date().toISOString(), updatedAt: new Date().toISOString(),
-    };
-    try{ await col.doc(id).set(body); if(msg) toast(msg); return true; }
-    catch(err){ toast(err && err.code==="quota_exceeded" ? "Limite de itens atingido." : "Não consegui salvar agora."); return false; }
-  }
-
-  async function quickAdd(){
-    const text = $("#quickInput").value.trim(); if(!text) return;
-    const btn = $("#quickBtn"); btn.disabled = true; btn.textContent = "Entendendo…";
-    try{
-      const d = new Date();
-      const prompt = `Você organiza a agenda de Pedro, editor, motion designer e videomaker em Guarapuava-PR.
-Hoje é ${WD[d.getDay()]}, ${iso(d)}. Transforme a frase abaixo em UM item de agenda.
-Clientes conhecidos (use o nome exato se a frase citar um, mesmo abreviado): ${CLIENTS.map(c=>c[0]).join(", ")}.
-"type": "job" se for uma demanda/entrega de trabalho com prazo; "evento" se for compromisso de trabalho com hora ou lugar (reunião, gravação, call); "pessoal" se for vida pessoal (família, casa, saúde, escola, contas).
-"date" YYYY-MM-DD (resolva "hoje", "amanhã", "sexta", "dia 20" a partir de hoje; dia da semana = próxima ocorrência; se não houver data, null).
-"time" HH:MM ou null. "title" curto, sem data/hora, com inicial maiúscula. "client" = nome do cliente ou null. "jobType" = um de ${JOB_TYPES.join(", ")} ou null. "urgent" true/false.
-Responda SOMENTE com JSON: {"type":"","title":"","date":null,"time":null,"client":null,"jobType":null,"urgent":false}
-Frase: """${text}"""`;
-      const r = await sample.json(prompt, { modelTier:"quick" });
-      if(!r || !r.title) throw new Error("vazio");
-      const t = ["job","evento","pessoal"].includes(r.type) ? r.type : "job";
-      const it = {
-        title: String(r.title).slice(0,200),
-        kind: t==="evento" ? "evento" : (t==="pessoal" && r.time ? "evento" : "tarefa"),
-        area: t==="pessoal" ? "pessoal" : "pro",
-        date: /^\d{4}-\d{2}-\d{2}$/.test(r.date||"") ? r.date : (chooserDate||null),
-        time: /^\d{2}:\d{2}$/.test(r.time||"") ? r.time : null,
-        project: t!=="pessoal" && r.client ? String(r.client).slice(0,80) : null,
-        jobType: t==="job" && JOB_TYPES.includes(r.jobType) ? r.jobType : null,
-        prio: r.urgent ? "alta" : "normal",
-      };
-      // mostra o formulário já preenchido para conferir antes de salvar
-      openForm(t, it);
-      toast("Confere e toque em Adicionar");
-    }catch(err){
-      if(err && err.code==="not_granted") sample=null;
-      openForm("job", { title:text, date:chooserDate||"" });
-    }finally{ if(btn){ btn.disabled=false; btn.textContent="Adicionar"; } }
-  }
-
-  /* resumo */
-  const _briefDisabled = async ()=>{
-    const box = $("#brief"), out = $("#briefTxt"); box.classList.add("on");
-    const in7 = iso(new Date(now.getFullYear(), now.getMonth(), now.getDate()+7));
-    const rel = items.filter(i=>!i.done && (i.date===TODAY || isLate(i) || (i.date && i.date>TODAY && i.date<=in7) || (!i.date && i.prio==="alta"))).sort(sortItems);
-    if(!sample){ out.textContent = `${items.filter(i=>i.date===TODAY && !i.done).length} item(ns) hoje e ${items.filter(isLate).length} atrasado(s).`; return; }
-    const lines = rel.map(i=>`- [${i.area==="pro"?"TRABALHO":"PESSOAL"}] ${kindLabel(i)} "${i.title}"${i.project?" ("+i.project+")":""} · ${i.date||"sem data"}${i.time?" "+i.time:""}${isLate(i)?" · ATRASADO":""}${i.prio==="alta"?" · urgente":""}`).join("\n") || "(nada cadastrado)";
-    out.textContent = "Pensando…";
-    try{
-      await sample(`Você é o assessor pessoal de Pedro (editor, motion designer e videomaker). Português do Brasil, direto e amigável, no máximo 6 linhas curtas, sem markdown.
-Hoje é ${WD[now.getDay()]}, ${TODAY}.
-Itens:
-${lines}
-Diga o que é prioridade hoje, avise atrasos e sugira uma ordem prática. Não invente nada fora da lista.`, { modelTier:"quick", onText:({text})=>{ out.textContent = text; } });
-    }catch(err){ if(err && err.code==="not_granted") sample=null; out.textContent = "Não consegui gerar o resumo agora."; }
-  };
-
-  /* ================= ENTREGAS ================= */
-  const money = v => "R$ " + Number(v||0).toLocaleString("pt-BR",{maximumFractionDigits:2});
-  const plural = (n,a,b)=>`${n} ${n===1?a:b}`;
-  function renderEntregas(){
-    $("#eMonth").textContent = `${MONTHS[eView.getMonth()]} de ${eView.getFullYear()}`;
-    const mk = `${eView.getFullYear()}-${pad(eView.getMonth()+1)}`;
-    const list = entregas.filter(e=>(e.date||"").startsWith(mk)).sort((a,b)=>(b.date||"").localeCompare(a.date||""));
-    const revs = list.reduce((s,e)=>s+(+e.revisions||0),0), total = list.reduce((s,e)=>s+(+e.value||0),0);
-    const clients = {}; list.forEach(e=>{ const k=(e.client||"Sem cliente").trim(); (clients[k] ||= {n:0,r:0,v:0}); clients[k].n++; clients[k].r+=+e.revisions||0; clients[k].v+=+e.value||0; });
-    $("#eCount").textContent = list.length; $("#eCount2").textContent = list.length;
-    $("#eRevs").textContent = revs;
-    $("#eAvg").textContent = list.length ? `${(revs/list.length).toLocaleString("pt-BR",{maximumFractionDigits:1})} por projeto` : "por projeto";
-    $("#eClients").textContent = Object.keys(clients).length;
-    $("#eMoney").textContent = total>0 ? money(total) : "—";
-    $("#eList").innerHTML = list.length ? list.map(e=>{
-      const r=+e.revisions||0, g=groupOf(e.client);
-      return `<div class="card ent" data-eid="${e.id}"><div class="bd"><div class="tt">${esc(e.project)}</div>
-        <div class="sub">${esc(e.client)}${g!=="Outros"?" · "+(g==="Pessoal"?"cliente direto":agencyShort(g)):""} · ${e.date?fmtD(e.date):""}</div>
-        <div class="pills">${e.type?`<span class="pill">${esc(e.type)}</span>`:""}${+e.value>0?`<span class="pill ok">${money(e.value)}</span>`:""}</div></div>
-        <div class="rev"><button data-rev="-1" data-rid="${e.id}" aria-label="Menos uma alteração">−</button><div class="num ${r>=3?"hi":""}"><b>${r}</b>${r===1?"alteração":"alterações"}</div><button data-rev="1" data-rid="${e.id}" aria-label="Mais uma alteração">+</button></div></div>`;
-    }).join("") : `<div class="card empty">Nenhuma entrega em ${MONTHS[eView.getMonth()].toLowerCase()}.<br>Toque no <b>+</b> para registrar.</div>`;
-    const rows = Object.entries(clients).sort((a,b)=>b[1].n-a[1].n || b[1].r-a[1].r);
-    const maxN = Math.max(1,...rows.map(([,c])=>c.n+c.r));
-    const html = GROUPS.map(g=>{
-      const gr = rows.filter(([k])=>groupOf(k)===g); if(!gr.length) return "";
-      const n = gr.reduce((s,[,c])=>s+c.n,0), r = gr.reduce((s,[,c])=>s+c.r,0);
-      return `<div class="grp">${g==="Pessoal"?"Clientes diretos":g} · ${plural(n,"projeto","projetos")} · ${plural(r,"alteração","alterações")}</div>` + gr.map(([k,c])=>`<div class="bar-row"><div class="tp"><b>${esc(k)}</b><span>${plural(c.n,"projeto","projetos")} · ${plural(c.r,"alteração","alterações")}${c.v>0?" · "+money(c.v):""}</span></div><div class="bar"><i class="p" style="width:${c.n/maxN*100}%"></i><i class="r" style="width:${c.r/maxN*100}%"></i></div></div>`).join("");
-    }).join("");
-    $("#eClientsList").innerHTML = html || `<div class="empty" style="padding:8px">Os clientes aparecem aqui conforme você registra as entregas.</div>`;
-  }
-  $("#ePrev").onclick = ()=>{ eView = new Date(eView.getFullYear(), eView.getMonth()-1, 1); renderEntregas(); };
-  $("#eNext").onclick = ()=>{ eView = new Date(eView.getFullYear(), eView.getMonth()+1, 1); renderEntregas(); };
-  const revBusy = new Set();
-  $("#eList").addEventListener("click", async e=>{
-    const b = e.target.closest("[data-rev]");
-    if(b){
-      e.stopPropagation(); const id=b.dataset.rid; if(revBusy.has(id)||!eCol) return;
-      const it = entregas.find(x=>x.id===id); if(!it) return;
-      const next = Math.max(0,(+it.revisions||0)+(+b.dataset.rev)); if(next===(+it.revisions||0)) return;
-      revBusy.add(id);
-      try{ await eCol.doc(id).update({ revisions: next, updatedAt: new Date().toISOString() }); }catch(err){ toast("Não consegui salvar."); }
-      finally{ revBusy.delete(id); }
-      return;
-    }
-    const row = e.target.closest("[data-eid]"); if(row){ const it = entregas.find(x=>x.id===row.dataset.eid); if(it) openEntrega(it); }
-  });
-
-  function openEntrega(it){
-    const editing = !!(it && it.id);
-    const v = it || {};
-    const mk = `${eView.getFullYear()}-${pad(eView.getMonth()+1)}`;
-    const dflt = v.date || (mk===TODAY.slice(0,7) ? TODAY : `${mk}-01`);
-    openSheet(`
-      <div class="sh-head"><button class="back" ${editing||v.fromItem?"data-close":"data-back"}>‹ ${editing||v.fromItem?"Fechar":"Trocar tipo"}</button></div>
-      <div class="card opt" style="cursor:default"><div class="ico ok">${ICON.entrega}</div><div><b>${editing?"Editar entrega":"Registrar entrega"}</b><span>Projeto finalizado e enviado ao cliente</span></div></div>
-      <form id="eForm">
-        <div class="sec-t">Dados da entrega</div>
-        <div class="fld"><label>Cliente</label>${clientSelect(v.client||"")}</div>
-        <div class="fld"><label>Projeto / peça</label><input id="eProj" required value="${esc(v.project||"")}" placeholder="Ex.: Telas Colégio Start"></div>
-        <div class="row2"><div class="fld"><label>Data da entrega</label><input type="date" id="eDate" required value="${dflt}"></div>
-          <div class="fld"><label>Tipo</label><select id="eType"><option value="">—</option>${JOB_TYPES.map(t=>`<option ${t===v.type?"selected":""}>${t}</option>`).join("")}</select></div></div>
-        <div class="row2"><div class="fld"><label>Nº de alterações</label><input type="number" inputmode="numeric" id="eRev" min="0" value="${v.revisions??0}"></div>
-          <div class="fld"><label>Valor <i>· opcional</i></label><input type="number" inputmode="decimal" id="eVal" min="0" step="0.01" value="${v.value??""}" placeholder="R$"></div></div>
-        <div class="fld"><label>O que foi alterado <i>· opcional</i></label><textarea id="eNotes" rows="3">${esc(v.notes||"")}</textarea></div>
-        ${v.fromItem && !v.fromItem.done ? `<label class="card check"><input type="checkbox" id="eDoneItem" checked><div class="bx"></div><div><b>Marcar o job como entregue na agenda</b><span>Ele sai da lista de pendentes.</span></div></label>` : ""}
-        <div class="actions"><button class="btn pri full" type="submit">${editing?"Salvar alterações":"Registrar entrega"}</button>${editing?`<button type="button" class="btn dan" id="eDel">Excluir entrega</button>`:""}</div>
-      </form>`);
-    $("#fClient").addEventListener("change", e=>{ $("#fClientOther").style.display = e.target.value==="__outro" ? "" : "none"; });
-    $("#eForm").addEventListener("submit", async e=>{
-      e.preventDefault();
-      if(!eCol){ toast("Sem conexão com os dados ainda."); return; }
-      const body = {
-        client: readClient(), project: $("#eProj").value.trim(), date: $("#eDate").value,
-        revisions: Math.max(0, parseInt($("#eRev").value,10)||0),
-        value: $("#eVal").value==="" ? null : Math.max(0, +$("#eVal").value),
-        type: $("#eType").value || null, notes: $("#eNotes").value.trim() || null,
-        createdAt: v.createdAt || new Date().toISOString(), updatedAt: new Date().toISOString(),
-      };
-      if(!body.client){ toast("Escolha o cliente."); return; }
-      if(!body.project || !body.date) return;
-      const id = v.id || `e${Date.now().toString(36)}${Math.random().toString(36).slice(2,6)}`;
+      const cli = $("#fCli").value==="__outro" ? $("#fCliOutro").value.trim() : $("#fCli").value;
+      if(!cli){ toast("Escolha o cliente."); return; }
+      const dados = { cliente: cli, titulo: $("#fTit").value.trim(), tipo: $("#fTipo").value || null,
+        dataEntrega: $("#fData").value, hora: $("#fHora").value || null, obs: $("#fObs").value.trim() || null, link: $("#fLink").value.trim() || null };
       try{
-        await eCol.doc(id).set(body);
-        if(v.fromItem && $("#eDoneItem")?.checked) await save({...v.fromItem, done:true});
-        toast(editing ? "Entrega atualizada" : "Entrega registrada ✓");
-        const d = parseISO(body.date); eView = new Date(d.getFullYear(), d.getMonth(), 1);
-        closeSheet(); renderEntregas();
-      }catch(err){ toast("Não consegui salvar agora."); }
-    });
-    $("#eDel")?.addEventListener("click", async ev=>{
-      const b = ev.currentTarget;
-      if(b.dataset.c!=="1"){ b.dataset.c="1"; b.textContent="Toque de novo para excluir"; return; }
-      try{ await eCol.doc(v.id).delete(); toast("Entrega excluída"); closeSheet(); }catch(err){ toast("Não consegui excluir."); }
+        if(j){ await api.update(j.id, { ...dados, atualizadoEm: new Date().toISOString() }); toast("Job atualizado"); }
+        else { await api.create({ ...dados, status:"novo", enviadoPor: { uid: me.uid, nome: me.nome, email: me.email }, criadoEm: new Date().toISOString() }); toast("Job enviado ✓ O Pedro vai receber o aviso."); }
+        closeSheet(); const d=parseISO(dados.dataEntrega); view=new Date(d.getFullYear(), d.getMonth(), 1); render();
+      }catch(err){ toast("Não consegui salvar: " + (err.code||err.message)); }
     });
   }
 
-  /* ================= ABAS ================= */
-  function showTab(){
-    const t = location.hash==="#entregas" ? "entregas" : "agenda";
-    document.querySelectorAll(".tab").forEach(a=>a.classList.toggle("on", a.dataset.tab===t));
-    document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on", v.id==="view-"+t));
-    $("#hTitle").innerHTML = t==="entregas" ? 'Suas <span class="ser">entregas</span>' : 'Sua <span class="ser">agenda</span>';
-    if(t==="entregas") renderEntregas(); else render();
-    window.scrollTo(0,0);
-  }
-  window.addEventListener("hashchange", showTab);
-
-  setInterval(()=>{ const n=new Date(); if(iso(n)!==TODAY){ now=n; TODAY=iso(n); render(); } }, 60000);
-  showTab();
-
-  /* ================= CALENDÁRIO (lembretes sem custo) ================= */
-  const TZ = "America/Sao_Paulo";
-  const compact = d => d.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
-  function eventTimes(i){
-    if(i.time){ const [y,m,d]=i.date.split("-").map(Number); const [hh,mm]=i.time.split(":").map(Number);
-      const st=new Date(y,m-1,d,hh,mm), en=new Date(st.getTime()+60*60000); return {allDay:false, st, en}; }
-    const st=parseISO(i.date), en=new Date(st.getFullYear(),st.getMonth(),st.getDate()+1); return {allDay:true, st, en};
-  }
-  const ymd = d => `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`;
-  const descOf = i => [i.project?`Cliente: ${i.project}`:"", i.jobType?`Tipo: ${i.jobType}`:"", i.notes||"", "— Assessor · Horn Films"].filter(Boolean).join("\n");
-  const titleOf = i => i.title + (i.project ? ` (${i.project})` : "");
-  function gcalUrl(i){
-    const t = eventTimes(i);
-    const dates = t.allDay ? `${ymd(t.st)}/${ymd(t.en)}` : `${compact(t.st)}/${compact(t.en)}`;
-    const q = new URLSearchParams({ action:"TEMPLATE", text:titleOf(i), dates, details:descOf(i), ctz:TZ });
-    if(i.location) q.set("location", i.location);
-    return "https://calendar.google.com/calendar/render?" + q.toString();
-  }
-  function downloadIcs(i){
-    const t = eventTimes(i);
-    const escI = v => String(v||"").replace(/\\/g,"\\\\").replace(/\n/g,"\\n").replace(/,/g,"\\,").replace(/;/g,"\;");
-    const lines = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Horn Films//Assessor//PT","CALSCALE:GREGORIAN","BEGIN:VEVENT",
-      `UID:${i.id||Date.now()}@assessor-horn`, `DTSTAMP:${compact(new Date())}`,
-      t.allDay ? `DTSTART;VALUE=DATE:${ymd(t.st)}` : `DTSTART:${compact(t.st)}`,
-      t.allDay ? `DTEND;VALUE=DATE:${ymd(t.en)}` : `DTEND:${compact(t.en)}`,
-      `SUMMARY:${escI(titleOf(i))}`, `DESCRIPTION:${escI(descOf(i))}`, i.location?`LOCATION:${escI(i.location)}`:"",
-      "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:Lembrete","TRIGGER:-PT1H","END:VALARM",
-      "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:Lembrete","TRIGGER:-P1D","END:VALARM",
-      "END:VEVENT","END:VCALENDAR"].filter(Boolean);
-    downloadFile(lines.join("\r\n"), (i.title||"evento").replace(/[^\w\-]+/g,"_").slice(0,40)+".ics", "text/calendar;charset=utf-8");
-  }
-  function downloadFile(text, name, type){
-    const url = URL.createObjectURL(new Blob([text], {type}));
-    const a = document.createElement("a"); a.href=url; a.download=name; document.body.appendChild(a); a.click();
-    setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 1500);
-  }
-
-  /* ================= AJUSTES / BACKUP ================= */
-  let store = null, userInfo = null;
-  $("#gearBtn").onclick = ()=>{
+  function openDetail(j){
+    const st = STATUS[j.status] || STATUS.novo, d = parseISO(j.dataEntrega);
+    const podeEditar = dono || (meuJob(j) && j.status === "novo");
+    const stBtn = (k,l) => `<button class="btn ${j.status===k?"pri":"sec"}" data-st="${k}">${j.status===k?"✓ ":""}${l}</button>`;
     openSheet(`
-      <div class="sh-head"><h2>Ajustes</h2><button class="back" data-close>Fechar</button></div>
-      <div class="card note">${userInfo ? `Conectado como <b>${esc(userInfo)}</b>` : "Modo local · dados só neste aparelho"}</div>
+      <div class="sh-head"><h2>Job</h2><button class="back" data-close>Fechar</button></div>
+      <div class="card det"><h3>${esc(j.titulo)}</h3>
+        <div class="pills"><span class="pill">${esc(j.cliente)}</span>${j.tipo?`<span class="pill">${esc(j.tipo)}</span>`:""}<span class="pill ${st[1]}">${st[0]}</span></div>
+        <dl><dt>Entrega</dt><dd>${WD[d.getDay()]}, ${fmtD(j.dataEntrega)}${j.hora?" · "+j.hora:""}</dd>
+        <dt>Enviado por</dt><dd>${meuJob(j)?"você":esc(j.enviadoPor&&j.enviadoPor.nome||"—")}${dono && j.enviadoPor && j.enviadoPor.email && !meuJob(j) ? ` <span style="color:var(--tinta3)">· ${esc(j.enviadoPor.email)}</span>` : ""}</dd>
+        ${j.link?`<dt>Arquivos</dt><dd><a href="${esc(j.link)}" target="_blank" rel="noopener" style="color:var(--tinta)">abrir link</a></dd>`:""}</dl>
+        ${j.obs?`<p>${esc(j.obs)}</p>`:""}</div>
+      ${dono ? `<div class="sec-t" style="margin:6px 0 8px">Status (a equipe vê)</div>
+      <div class="row2">${stBtn("novo","Novo")}${stBtn("producao","Em produção")}</div>
+      <div class="row2" style="margin-top:8px">${stBtn("alteracao","Em alteração")}${stBtn("entregue","Entregue")}</div>` : ""}
       <div class="actions">
-        <button class="btn sec" data-set="export">Exportar backup (.json)</button>
-        <button class="btn sec" data-set="import">Importar backup</button>
-        ${userInfo && window.__enablePush ? `<button class="btn ${window.__pushOn ? "sec" : "pri"}" data-set="push">${window.__pushOn ? "Notificações ativas ✓ (reativar)" : "Ativar notificações"}</button>` : ""}
-        ${userInfo && !window.__hasPassword ? `<button class="btn sec" data-set="senha">Criar senha para o celular</button>` : ""}
-        ${userInfo ? `<button class="btn dan" data-set="logout">Sair da conta</button>` : ""}
+        ${podeEditar?`<button class="btn sec" data-act="edit">Editar</button><button class="btn dan" data-act="del">${dono?"Excluir job":"Cancelar job"}</button>`:""}
+        ${!dono && meuJob(j) && !podeEditar ? `<div class="card note">O Pedro já começou este job. Para mudar algo, fale direto com ele.</div>` : ""}
+      </div>`);
+    $("#sheetBody").onclick = async e => {
+      const st = e.target.closest("[data-st]")?.dataset.st;
+      if(st){ try{ await api.update(j.id, { status: st, atualizadoEm: new Date().toISOString() }); toast("Status: " + STATUS[st][0]); closeSheet(); }catch(err){ toast("Não consegui atualizar."); } return; }
+      const a = e.target.closest("[data-act]")?.dataset.act; if(!a) return;
+      if(a==="edit") openForm(j);
+      if(a==="del"){ const b=e.target.closest("[data-act]"); if(b.dataset.c!=="1"){ b.dataset.c="1"; b.textContent=dono?"Toque de novo para excluir":"Toque de novo para cancelar"; return; }
+        try{ await api.remove(j.id); toast("Job cancelado"); closeSheet(); }catch(err){ toast("Não consegui cancelar."); } }
+    };
+  }
+
+  /* ---------- eventos ---------- */
+  $("#prevM").onclick = () => { view = new Date(view.getFullYear(), view.getMonth()-1, 1); render(); };
+  $("#nextM").onclick = () => { view = new Date(view.getFullYear(), view.getMonth()+1, 1); render(); };
+  $("#filters").addEventListener("click", e => { const b=e.target.closest("[data-f]"); if(!b) return; filtro=b.dataset.f; document.querySelectorAll("#filters .chip").forEach(x=>x.classList.toggle("on",x===b)); render(); });
+  $("#days").addEventListener("click", e => { const b=e.target.closest("[data-d]"); if(!b) return; const el=document.getElementById("d-"+b.dataset.d); if(el) el.scrollIntoView({behavior:"smooth"}); else if(b.dataset.d>=TODAY) openForm({ dataEntrega: b.dataset.d }); });
+  $("#lista").addEventListener("click", e => { const b=e.target.closest("[data-id]"); if(!b) return; const j=jobs.find(x=>x.id===b.dataset.id); if(j) openDetail(j); });
+  $("#novoBtn").onclick = () => openForm(null);
+  $("#gearBtn").onclick = () => {
+    openSheet(`
+      <div class="sh-head"><h2>Sua <span class="ser">conta</span></h2><button class="back" data-close>Fechar</button></div>
+      <div class="card note">Conectado como <b>${esc(me&&me.nome)}</b><br>${esc(me&&me.email)}${dono?"<br><span style='color:var(--rec)'>Administrador</span>":""}</div>
+      <div class="actions">
+        ${dono ? `<button class="btn sec" data-set="equipe">Equipe da agência · ${(equipe.emails||[]).length}</button>
+        <button class="btn sec" data-set="link">Copiar link para a equipe</button>
+        <button class="btn ${window.__pushOn?"sec":"pri"}" data-set="push">${window.__pushOn?"Notificações ativas ✓ (reativar)":"Ativar notificações de job novo"}</button>` : ""}
+        ${me && !me.temSenha ? `<button class="btn sec" data-set="senha">Criar senha (para o app no celular)</button>` : ""}
+        <button class="btn dan" data-set="sair">Sair</button>
       </div>
-      <div class="card note" style="margin-top:14px">Dica: no iPhone, abra no Safari → Compartilhar → <b>Adicionar à Tela de Início</b> para usar como app.</div>`);
-    $("#sheetBody").onclick = async e=>{
+      <div class="card note" style="margin-top:14px">No iPhone: abra no Safari → Compartilhar → <b>Adicionar à Tela de Início</b> para ter o atalho.</div>`);
+    $("#sheetBody").onclick = async e => {
       const a = e.target.closest("[data-set]")?.dataset.set; if(!a) return;
-      if(a==="export"){
-        const obj = { app:"assessor-horn", version:1, exportedAt:new Date().toISOString(),
-          items:Object.fromEntries(items.map(({id,...d})=>[id,d])), entregas:Object.fromEntries(entregas.map(({id,...d})=>[id,d])) };
-        downloadFile(JSON.stringify(obj,null,1), `backup-assessor-${TODAY}.json`, "application/json");
-      }
-      if(a==="import") $("#importFile").click();
-      if(a==="logout"){ await store.logout(); location.reload(); }
-      if(a==="push"){
-        try{ await window.__enablePush(); window.__pushOn = true; toast("Notificações ativadas ✓"); closeSheet(); }
-        catch(e){ const m = String(e.message || e.code || e); toast(m==="negado" ? "Permissão negada. Libere em Ajustes do iPhone → Notificações → Assessor." : m==="sem-suporte" ? "Abra pelo app da tela inicial (iPhone com iOS 16.4+) para ativar." : "Erro: " + m); }
-      }
+      if(a==="sair"){ await api.logout(); location.reload(); }
+      if(a==="link"){ const u = location.origin + location.pathname.replace(/[^/]*$/, ""); try{ await navigator.clipboard.writeText(u); toast("Link copiado"); }catch(err){ prompt("Link para a equipe:", u); } }
+      if(a==="equipe") openEquipe();
+      if(a==="push"){ try{ await api.enablePush(); window.__pushOn = true; toast("Notificações ativadas ✓"); closeSheet(); }
+        catch(err){ const m = String(err.message||err.code||err); toast(m==="negado" ? "Permissão negada. Libere em Ajustes do iPhone → Notificações." : m==="sem-suporte" ? "Abra pelo atalho da tela inicial (iOS 16.4+) para ativar." : "Erro: " + m); } }
       if(a==="senha"){
-        openSheet(`<div class="sh-head"><h2>Senha do <span class="ser">celular</span></h2><button class="back" data-close>Fechar</button></div>
-          <div class="card note">Use esta senha com o e-mail <b>${esc(userInfo)}</b> para entrar no app instalado no iPhone. Os dados são os mesmos.</div>
+        openSheet(`<div class="sh-head"><h2>Criar <span class="ser">senha</span></h2><button class="back" data-close>Fechar</button></div>
+          <div class="card note">Use esta senha com o e-mail <b>${esc(me.email)}</b> para entrar pelo atalho do celular.</div>
           <form id="pwForm"><div class="fld"><label>Nova senha (mínimo 6 caracteres)</label><input type="password" id="pw1" minlength="6" required autocomplete="new-password"></div>
           <div class="actions"><button class="btn pri full">Salvar senha</button></div></form>`);
-        $("#pwForm").onsubmit = async ev=>{
-          ev.preventDefault();
-          try{ await window.__linkPassword($("#pw1").value); window.__hasPassword = true; toast("Senha criada ✓"); closeSheet(); }
-          catch(e){ const c = String(e.code||""); toast(c.includes("requires-recent-login") ? "Saia e entre de novo com o Google, depois crie a senha." : c.includes("weak-password") ? "Senha fraca: use 6+ caracteres." : "Erro: " + c); }
-        };
+        $("#pwForm").onsubmit = async ev => { ev.preventDefault();
+          try{ await api.linkPassword($("#pw1").value); me.temSenha = true; toast("Senha criada ✓"); closeSheet(); }
+          catch(err){ const c = String(err.code||""); toast(c.includes("requires-recent-login") ? "Saia e entre de novo, depois crie a senha." : c.includes("weak-password") ? "Senha fraca: use 6+ caracteres." : "Erro: " + c); } };
       }
     };
   };
-  $("#importFile").addEventListener("change", async e=>{
-    const f = e.target.files[0]; if(!f) return;
-    try{
-      const obj = JSON.parse(await f.text());
-      let n = 0;
-      for(const name of ["items","entregas"]){
-        for(const [id,d] of Object.entries(obj[name]||{})){ await store.col(name).doc(id).set(d); n++; }
-      }
-      toast(`Backup importado: ${n} registros`); closeSheet();
-    }catch(err){ toast("Arquivo de backup inválido."); }
-    e.target.value = "";
-  });
-
-  /* ================= DADOS: Firebase (sincroniza) ou local ================= */
-  function localStore(){
-    const KEY = "assessor-horn-v1";
-    const read = () => { try{ return JSON.parse(localStorage.getItem(KEY)) || {items:{},entregas:{}}; }catch(e){ return {items:{},entregas:{}}; } };
-    const subs = {items:[],entregas:[]};
-    const emit = name => { const d = read()[name]||{}; const list = Object.entries(d).map(([id,v])=>({id,...v})); subs[name].forEach(f=>f(list)); };
-    const write = (name, fn) => { const all = read(); all[name] ||= {}; fn(all[name]); localStorage.setItem(KEY, JSON.stringify(all)); emit(name); };
-    window.addEventListener("storage", e=>{ if(e.key===KEY){ emit("items"); emit("entregas"); } });
-    return {
-      col: name => ({ doc: id => ({
-        set: async d => write(name, c=>{ c[id]=d; }),
-        update: async d => write(name, c=>{ c[id] = {...(c[id]||{}), ...d}; }),
-        delete: async () => write(name, c=>{ delete c[id]; }),
-      })}),
-      subscribe: (name, f) => { subs[name].push(f); setTimeout(()=>emit(name),0); },
-      logout: async ()=>{},
-    };
+  function openEquipe(){
+    const emails = equipe.emails || [];
+    openSheet(`
+      <div class="sh-head"><h2>Equipe da <span class="ser">agência</span></h2><button class="back" data-close>Fechar</button></div>
+      <div class="card note">Quem estiver aqui pode entrar, enviar jobs e ver todos os jobs. Cada pessoa entra com o próprio Google ou cria e-mail e senha.</div>
+      ${emails.length ? emails.map(m=>`<div class="card" style="display:flex;align-items:center;gap:10px;padding:12px 14px;margin-bottom:8px"><span style="flex:1;word-break:break-all">${esc(m)}</span><button class="btn dan" data-rm="${esc(m)}" style="padding:8px 12px">Remover</button></div>`).join("") : `<div class="card empty">Ninguém liberado ainda.</div>`}
+      <form id="eqForm" style="margin-top:12px"><div class="fld"><label>Liberar e-mail</label><input type="email" id="eqMail" required placeholder="nome@agencia.com.br" autocomplete="off"></div>
+      <div class="actions"><button class="btn pri full">Adicionar</button></div></form>`);
+    const salvar = async list => { try{ await api.setEquipe(list); equipe.emails = list; toast("Equipe atualizada"); }catch(err){ toast("Não consegui salvar: " + (err.code||err.message)); } };
+    $("#eqForm").onsubmit = async ev => { ev.preventDefault(); const m = $("#eqMail").value.trim().toLowerCase(); if(!m) return; if(emails.includes(m)){ toast("Já está na lista."); return; } await salvar(emails.concat(m)); openEquipe(); };
+    $("#sheetBody").onclick = async e => { const b = e.target.closest("[data-rm]"); if(!b) return; if(b.dataset.c!=="1"){ b.dataset.c="1"; b.textContent="Confirmar"; return; } await salvar(emails.filter(x=>x!==b.dataset.rm)); openEquipe(); };
   }
 
-  async function firebaseStore(cfg){
-    const V = "10.12.2", base = `https://www.gstatic.com/firebasejs/${V}/`;
+  /* ---------- Firebase ---------- */
+  async function boot(){
+    const cfg = window.ASSESSOR_CONFIG && window.ASSESSOR_CONFIG.firebase;
+    if(!cfg){ setStatus("Sem configuração"); $("#loginTxt").textContent = "O sistema ainda não está configurado."; $("#loginArea").style.display="none"; return; }
+    const base = "https://www.gstatic.com/firebasejs/10.12.2/";
     const [{initializeApp}, A, F] = await Promise.all([import(base+"firebase-app.js"), import(base+"firebase-auth.js"), import(base+"firebase-firestore.js")]);
-    const app = initializeApp(cfg);
-    const auth = A.getAuth(app);
+    const app = initializeApp(cfg), auth = A.getAuth(app);
     let db; try{ db = F.initializeFirestore(app, { localCache: F.persistentLocalCache() }); }catch(e){ db = F.getFirestore(app); }
-    try{ await A.getRedirectResult(auth); }catch(e){ $("#loginErr").textContent = "Não foi possível entrar: " + (e.code||e.message); }
-    const user = await new Promise(res=>{ const off = A.onAuthStateChanged(auth, u=>{ off(); res(u); }); });
-    const allowed = (window.ASSESSOR_CONFIG && window.ASSESSOR_CONFIG.allowedEmails) || [];
-    if(!user || (allowed.length && !allowed.map(x=>x.toLowerCase()).includes((user.email||"").toLowerCase()))){
-      if(user){ await A.signOut(auth); $("#loginErr").textContent = "Esta conta não tem acesso a este assessor."; }
-      $("#login").classList.add("on");
-      $("#loginBtn").onclick = async ()=>{
-        const prov = new A.GoogleAuthProvider();
-        try{ await A.signInWithPopup(auth, prov); location.reload(); }
-        catch(e){
-          const c = String(e.code||"");
-          if(c.includes("popup-blocked") || c.includes("operation-not-supported")){ await A.signInWithRedirect(auth, prov); return; }
-          $("#loginErr").textContent = c.includes("popup-closed") ? "Login cancelado. No app instalado, use e-mail e senha abaixo." : "Erro ao entrar: " + (c||e.message);
-        }
-      };
-      $("#emailForm").onsubmit = async ev=>{
-        ev.preventDefault();
-        try{ await A.signInWithEmailAndPassword(auth, $("#lgEmail").value.trim(), $("#lgPass").value); location.reload(); }
-        catch(e){ const c = String(e.code||""); $("#loginErr").textContent = /invalid-credential|wrong-password|user-not-found|invalid-login/.test(c) ? "E-mail ou senha incorretos. Crie a senha em Ajustes depois de entrar com o Google." : "Erro ao entrar: " + c; }
-      };
-      return null;
+    const user = await new Promise(res => { const off = A.onAuthStateChanged(auth, u => { off(); res(u); }); });
+
+    $("#googleBtn").onclick = async () => { try{ await A.signInWithPopup(auth, new A.GoogleAuthProvider()); location.reload(); }catch(e){ const c=String(e.code||""); if(c.includes("popup-blocked")||c.includes("operation-not-supported")) await A.signInWithRedirect(auth, new A.GoogleAuthProvider()); else if(!c.includes("popup-closed")) $("#loginErr").textContent = "Erro ao entrar: " + c; } };
+    $("#togCriar").onclick = () => { criar = !criar; $("#lgNome").style.display = criar ? "" : "none"; $("#lgNome").required = criar; $("#emailBtn").textContent = criar ? "Criar conta" : "Entrar"; $("#togCriar").textContent = criar ? "Já tenho conta: entrar" : "Primeiro acesso? Criar conta com e-mail e senha"; };
+    $("#emailForm").onsubmit = async ev => {
+      ev.preventDefault(); $("#loginErr").textContent = "";
+      const email = $("#lgEmail").value.trim(), pass = $("#lgPass").value;
+      try{
+        if(criar){ const cr = await A.createUserWithEmailAndPassword(auth, email, pass); await A.updateProfile(cr.user, { displayName: $("#lgNome").value.trim() }); await A.sendEmailVerification(cr.user); }
+        else await A.signInWithEmailAndPassword(auth, email, pass);
+        location.reload();
+      }catch(e){ const c=String(e.code||""); $("#loginErr").textContent = c.includes("email-already-in-use") ? "Esse e-mail já tem conta. Toque em \"Já tenho conta: entrar\"." : /invalid-credential|wrong-password|user-not-found/.test(c) ? "E-mail ou senha incorretos." : c.includes("weak-password") ? "Senha fraca: use 6+ caracteres." : "Erro: " + c; }
+    };
+    if(!user){ setStatus("Entre para continuar"); return; }
+
+    if(!user.emailVerified){
+      $("#loginTxt").innerHTML = `Enviamos um link de confirmação para <b>${esc(user.email)}</b>. Abra o e-mail, confirme e depois toque em continuar.`;
+      $("#loginArea").innerHTML = `<button class="btn pri full" id="contBtn">Já confirmei, continuar</button><button class="tog" id="reenvBtn">Reenviar e-mail</button><button class="tog" id="outBtn">Usar outra conta</button>`;
+      $("#contBtn").onclick = async () => { await user.reload(); if(auth.currentUser.emailVerified){ await auth.currentUser.getIdToken(true); location.reload(); } else $("#loginErr").textContent = "Ainda não confirmado. Veja também a caixa de spam."; };
+      $("#reenvBtn").onclick = async () => { try{ await A.sendEmailVerification(user); toast("E-mail reenviado"); }catch(e){ toast("Aguarde um pouco e tente de novo."); } };
+      $("#outBtn").onclick = async () => { await A.signOut(auth); location.reload(); };
+      setStatus("Confirme o e-mail"); return;
     }
-    userInfo = user.email;
-    window.__hasPassword = user.providerData.some(p=>p.providerId==="password");
-    window.__linkPassword = async pwd => { await A.linkWithCredential(user, A.EmailAuthProvider.credential(user.email, pwd)); };
-    window.__enablePush = async () => {
-      if(!("Notification" in window) || !("serviceWorker" in navigator)) throw new Error("sem-suporte");
-      const perm = await Notification.requestPermission();
-      if(perm !== "granted") throw new Error("negado");
-      const M = await import(base + "firebase-messaging.js");
-      if(!(await M.isSupported())) throw new Error("sem-suporte");
-      const reg = await navigator.serviceWorker.ready;
-      const token = await M.getToken(M.getMessaging(app), { vapidKey: window.ASSESSOR_CONFIG.vapidKey, serviceWorkerRegistration: reg });
-      if(!token) throw new Error("sem-token");
-      const id = token.slice(-60).replace(/[^\w-]/g, "_");
-      await F.setDoc(F.doc(db, "users", user.uid, "tokens", id), { token, criadoEm: new Date().toISOString(), aparelho: navigator.userAgent.slice(0, 140) });
-      return true;
+
+    me = { uid: user.uid, email: user.email, nome: user.displayName || user.email.split("@")[0], temSenha: user.providerData.some(p=>p.providerId==="password") };
+    const col = F.collection(db, "jobs"), eqRef = F.doc(db, "config", "equipe");
+    const setEquipe = emails => F.setDoc(eqRef, { emails, donoUid: user.uid, donoEmail: (user.email||"").toLowerCase(), atualizadoEm: new Date().toISOString() });
+    try{
+      const eq = await F.getDoc(eqRef);
+      if(eq.exists()){ equipe = eq.data(); dono = equipe.donoUid === user.uid; }
+      else { try{ await setEquipe([]); dono = true; equipe = { emails: [], donoUid: user.uid }; }catch(e){ dono = false; } }
+    }catch(e){ /* sem acesso: tratado abaixo */ }
+    if(dono) F.onSnapshot(eqRef, s2 => { if(s2.exists()) equipe = s2.data(); });
+    api = {
+      create: d => F.addDoc(col, d),
+      update: (id, d) => F.updateDoc(F.doc(db, "jobs", id), d),
+      remove: id => F.deleteDoc(F.doc(db, "jobs", id)),
+      logout: () => A.signOut(auth),
+      setEquipe,
+      linkPassword: pwd => A.linkWithCredential(user, A.EmailAuthProvider.credential(user.email, pwd)),
+      enablePush: async () => {
+        if(!("Notification" in window) || !("serviceWorker" in navigator)) throw new Error("sem-suporte");
+        const perm = await Notification.requestPermission();
+        if(perm !== "granted") throw new Error("negado");
+        const M = await import(base + "firebase-messaging.js");
+        if(!(await M.isSupported())) throw new Error("sem-suporte");
+        const reg = await navigator.serviceWorker.ready;
+        const token = await M.getToken(M.getMessaging(app), { vapidKey: window.ASSESSOR_CONFIG.vapidKey, serviceWorkerRegistration: reg });
+        if(!token) throw new Error("sem-token");
+        await F.setDoc(F.doc(db, "users", user.uid, "tokens", token.slice(-60).replace(/[^\w-]/g, "_")), { token, criadoEm: new Date().toISOString(), aparelho: navigator.userAgent.slice(0, 140) });
+      },
     };
     window.__pushOn = ("Notification" in window) && Notification.permission === "granted";
-    if(window.__pushOn && window.ASSESSOR_CONFIG.vapidKey) window.__enablePush().catch(()=>{});
-    const ref = (name, id) => F.doc(db, "users", user.uid, name, id);
-    return {
-      col: name => ({ doc: id => ({
-        set: d => F.setDoc(ref(name,id), d),
-        update: d => F.updateDoc(ref(name,id), d),
-        delete: () => F.deleteDoc(ref(name,id)),
-      })}),
-      subscribe: (name, f, onErr) => F.onSnapshot(F.collection(db, "users", user.uid, name),
-        snap => { f(snap.docs.map(d=>({id:d.id, ...d.data()}))); setStatus(snap.metadata.fromCache ? "Offline" : "Sincronizado"); },
-        err => { setStatus("Erro de conexão"); onErr && onErr(err); }),
-      logout: () => A.signOut(auth),
-    };
+    if(dono && window.__pushOn && window.ASSESSOR_CONFIG.vapidKey) api.enablePush().catch(()=>{});
+    F.onSnapshot(col, snap => {
+      $("#login").classList.remove("on");
+      jobs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      setStatus(snap.metadata.fromCache ? "Offline" : "Sincronizado"); render();
+    }, err => {
+      if(err.code === "permission-denied"){
+        $("#login").classList.add("on");
+        $("#loginTxt").innerHTML = `Seu acesso ainda não foi liberado.<br>Peça para o Pedro liberar o e-mail <b>${esc(user.email)}</b> e depois toque em tentar de novo.`;
+        $("#loginArea").innerHTML = `<button class="btn pri full" onclick="location.reload()">Tentar de novo</button><button class="tog" id="outBtn2">Usar outra conta</button>`;
+        $("#outBtn2").onclick = async () => { await A.signOut(auth); location.reload(); };
+        setStatus("Sem acesso");
+      } else setStatus("Erro de conexão");
+    });
+    $("#hSub").textContent = dono ? "Jobs da agência · painel do Pedro" : `Olá, ${primeiroNome(me.nome)} · Horn Films`;
+    if(dono) $("#hTitle").innerHTML = 'Horn <span class="ser">jobs</span>';
   }
-
-  (async ()=>{
-    const cfg = window.ASSESSOR_CONFIG && window.ASSESSOR_CONFIG.firebase;
-    if(cfg && cfg.apiKey){
-      try{ store = await firebaseStore(cfg); }catch(e){ console.error(e); setStatus("Erro ao carregar"); toast("Não consegui conectar ao Firebase."); return; }
-      if(!store){ setStatus("Entre para continuar"); return; }
-    } else {
-      store = localStore(); $("#localBanner").classList.add("on"); setStatus("Neste aparelho");
-    }
-    col = store.col("items"); eCol = store.col("entregas");
-    store.subscribe("items", list=>{ items = list; render(); });
-    store.subscribe("entregas", list=>{ entregas = list; renderEntregas(); });
-  })();
-
   if("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(()=>{});
+  render();
+  boot().catch(e => { console.error(e); setStatus("Erro ao carregar"); });
+  window.__testSetJobs = (list, eu, d) => { jobs = list; me = eu; dono = !!d; $("#login").classList.remove("on"); api = { create: async d => { jobs.push({id:"n"+jobs.length, ...d}); render(); }, update: async()=>{}, remove: async()=>{}, logout: async()=>{} }; render(); };
 })();
 </script>
 </body>
