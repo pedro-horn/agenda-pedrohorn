@@ -225,6 +225,13 @@ input[type=date],input[type=time]{min-height:46px}
 .tabs2{display:flex;gap:6px;margin:4px 0 2px}
 .fabwrap{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(transparent,rgba(20,20,19,.95) 35%);z-index:5}
 .fabwrap .btn{max-width:620px;margin:0 auto;display:block;width:100%;background:var(--rec);color:#fff;font-size:16px}
+.fabwrap .fabrow{max-width:620px;margin:0 auto;display:flex;gap:8px}
+.fabwrap .fabrow .btn{flex:1;margin:0}
+.fabwrap .fabrow .btn.cola{flex:0 0 auto;background:var(--papel);color:var(--tinta);border:1px solid var(--linha2)}
+.pj{border:1px solid var(--linha2);border-radius:14px;padding:12px;margin-bottom:12px;background:rgba(255,255,255,.02)}
+.pj-h{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;color:var(--tinta3)}
+.pj-h b{color:var(--tinta);font-size:14px;flex:1}
+.pj .fld{margin-bottom:8px}
 .login .tog{background:none;border:0;color:var(--tinta2);font-size:13px;text-decoration:underline;margin-top:10px;cursor:pointer}
 .pill.novo{background:var(--azul-fundo);border-color:var(--azul-borda);color:var(--azul)}
 </style>
@@ -258,7 +265,7 @@ input[type=date],input[type=time]{min-height:46px}
   <div id="lista"></div>
 </div>
 
-<div class="fabwrap"><button class="btn" id="novoBtn">+ Enviar novo job</button></div>
+<div class="fabwrap"><div class="fabrow"><button class="btn cola" id="colarBtn" style="display:none">📋 Colar mensagem</button><button class="btn" id="novoBtn">+ Enviar novo job</button></div></div>
 
 <div class="sheet-bg" id="sheetBg"></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="grab"></div><div id="sheetBody"></div></div>
@@ -337,7 +344,7 @@ input[type=date],input[type=time]{min-height:46px}
       <div class="hr ${j.hora?"":"nt"}">${j.hora || "entrega"}</div>
       <div class="bd"><div class="tt">${esc(j.titulo)}</div>
         <div class="pills"><span class="pill">${esc(j.cliente)}</span>${j.tipo?`<span class="pill">${esc(j.tipo)}</span>`:""}<span class="pill ${st[1]}">${st[0]}</span></div>
-        <div class="who">por ${meuJob(j) ? "você" : esc(primeiroNome(j.enviadoPor && j.enviadoPor.nome))}</div></div></button>`;
+        <div class="who">por ${meuJob(j) && !j.solicitante ? "você" : esc(primeiroNome(j.solicitante || (j.enviadoPor && j.enviadoPor.nome)))}${j.solicitante ? " · via Pedro" : ""}</div></div></button>`;
   }
 
   /* ---------- sheet ---------- */
@@ -355,6 +362,120 @@ input[type=date],input[type=time]{min-height:46px}
     if(!data || !c.length) return "";
     return `⚠️ Já ${c.length===1?"tem <b>1 job</b>":`tem <b>${c.length} jobs</b>`} com entrega em ${fmtD(data)}:<ul>${c.map(j=>`<li>${esc(j.titulo)} · ${esc(j.cliente)}${j.hora?" · "+j.hora:""} <span style="color:var(--tinta3)">(por ${meuJob(j)?"você":esc(primeiroNome(j.enviadoPor&&j.enviadoPor.nome))})</span></li>`).join("")}</ul><div style="margin-top:6px">Se puder, escolha outro dia ou combine com o Pedro.</div>`;
   }
+
+  /* ---------- colar mensagem (só o Pedro) ---------- */
+  const NUM_PT = { "um":1,"uma":1,"dois":2,"duas":2,"tres":3,"três":3 };
+  const WD_IDX = { "domingo":0,"segunda":1,"terca":2,"terça":2,"quarta":3,"quinta":4,"sexta":5,"sabado":6,"sábado":6 };
+  const norm = t => String(t||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  function lerSimples(texto){
+    // leitura sem IA (reserva): 1 job, procura cliente, data, hora e tipo
+    let quem = "";
+    const limpo = String(texto).split(/\n/).map(l => { const m2 = l.match(/^\s*\[[^\]]*\]\s*([^:]{1,40}):\s*(.*)$/) || l.match(/^\s*\d{1,2}\/\d{1,2}\/\d{2,4},?\s+\d{1,2}:\d{2}\s*-\s*([^:]{1,40}):\s*(.*)$/); if(m2){ quem = quem || m2[1].trim().split(/\s+/)[0]; return m2[2]; } return l; }).join("\n");
+    texto = limpo;
+    const t = norm(texto), hoje = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    let data = null, m;
+    if(/\bhoje\b/.test(t)) data = hoje;
+    else if(/depois de amanha/.test(t)) data = new Date(hoje.getTime() + 2*864e5);
+    else if(/\bamanha\b/.test(t)) data = new Date(hoje.getTime() + 864e5);
+    if(!data && (m = t.match(/\b(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?\b/))){ let y = m[3] ? +m[3] : hoje.getFullYear(); if(y<100) y+=2000; data = new Date(y, +m[2]-1, +m[1]); if(!m[3] && data < hoje) data.setFullYear(y+1); }
+    if(!data && (m = t.match(/\bdia (\d{1,2})\b/))){ data = new Date(hoje.getFullYear(), hoje.getMonth(), +m[1]); if(data < hoje) data = new Date(hoje.getFullYear(), hoje.getMonth()+1, +m[1]); }
+    if(!data){ for(const [w,i] of Object.entries(WD_IDX)){ if(new RegExp("\\b"+norm(w)+"(-feira)?\\b").test(t)){ const d = new Date(hoje); let add = (i - d.getDay() + 7) % 7; if(add===0) add = 7; d.setDate(d.getDate()+add); data = d; break; } } }
+    let hora = null;
+    if((m = t.match(/\b(\d{1,2})(?:h|:)(\d{2})?(?:h|min)?\b/))){ const hh = +m[1]; if(hh<24) hora = `${pad(hh)}:${m[2]||"00"}`; }
+    const cliente = CLIENTES.find(c => t.includes(norm(c))) || CLIENTES.find(c => t.includes(norm(c).split(" ").slice(-1)[0]) && norm(c).split(" ").slice(-1)[0].length > 4) || "";
+    const TIPO_KW = [["Reels",/reels?|stories|story/],["Motion",/motion|anima/],["Telas / painel",/tela|painel|led/],["Arte / post",/\barte|post|carrossel|feed/],["Captação",/captac|gravac|filmag/],["Roteiro",/roteiro/],["Edição",/edic|editar|corte/],["Vídeo",/video/]];
+    const tipo = (TIPO_KW.find(([,r]) => r.test(t)) || [""])[0];
+    const linhas = String(texto).split(/\n+/).map(x=>x.replace(/^\[[^\]]*\]\s*[^:]{0,40}:\s*/, "").trim()).filter(Boolean);
+    const titulo = (linhas.find(l => l.length > 6) || linhas[0] || "").slice(0, 90);
+    return [{ cliente, titulo, tipo, dataEntrega: data ? iso(data) : "", hora: hora || "", obs: String(texto).trim().slice(0, 2000), solicitante: quem }];
+  }
+  async function lerComIA(texto){
+    const cfg = window.ASSESSOR_CONFIG && window.ASSESSOR_CONFIG.firebase;
+    if(!cfg) throw new Error("sem-config");
+    const V = "12.6.0", b = `https://www.gstatic.com/firebasejs/${V}/`;
+    const [{ initializeApp, getApps }, AI] = await Promise.all([import(b+"firebase-app.js"), import(b+"firebase-ai.js")]);
+    const app = getApps().find(a => a.name === "ia") || initializeApp(cfg, "ia");
+    const ai = AI.getAI(app, { backend: new AI.GoogleAIBackend() });
+    const S = AI.Schema;
+    const schema = S.object({ properties: { jobs: S.array({ items: S.object({ properties: {
+      cliente: S.string(), titulo: S.string(), tipo: S.string(), dataEntrega: S.string(), hora: S.string(), obs: S.string(), solicitante: S.string() } }) }) } });
+    const model = AI.getGenerativeModel(ai, { model: "gemini-2.5-flash", generationConfig: { responseMimeType: "application/json", responseSchema: schema, temperature: 0.1 } });
+    const d = new Date();
+    const prompt = `Você organiza os pedidos de job que a agência manda para Pedro Horn (editor e motion designer, Guarapuava-PR).
+Hoje é ${WD[d.getDay()]}, ${iso(d)}. Leia o texto colado (pode ser conversa de WhatsApp, e-mail ou áudio transcrito) e extraia TODOS os jobs pedidos, um item por entrega diferente.
+Regras:
+- "cliente": use exatamente um destes nomes se o texto citar (mesmo abreviado ou com erro): ${CLIENTES.join(", ")}. Se for outro cliente, escreva o nome como aparece. Se não der para saber, "".
+- "titulo": curto e claro (ex.: "Reels lançamento torre 2"), sem data.
+- "tipo": um de ${TIPOS.join(", ")}, ou "".
+- "dataEntrega": YYYY-MM-DD. Resolva "hoje", "amanhã", "sexta", "dia 20", "semana que vem" a partir de hoje (dia da semana = próxima ocorrência). Se não houver prazo, "".
+- "hora": HH:MM se houver horário de entrega, senão "".
+- "obs": briefing útil em tópicos curtos (formatos, textos, referências, quantidades, observações). Não repita título e data.
+- "solicitante": primeiro nome de quem pediu, se aparecer (ex.: remetente no WhatsApp), senão "".
+Texto:
+"""${texto}"""`;
+    const r = await model.generateContent(prompt);
+    const out = JSON.parse(r.response.text());
+    return (out.jobs || []).filter(j => j.titulo || j.cliente);
+  }
+  function openColar(){
+    openSheet(`
+      <div class="sh-head"><h2>Colar <span class="ser">mensagem</span></h2><button class="back" data-close>Fechar</button></div>
+      <div class="card note">Cole tudo o que veio sobre o job (WhatsApp, e-mail, transcrição de áudio). A IA separa cada job e preenche os campos para você revisar.</div>
+      <div class="fld"><textarea id="colaTxt" rows="9" placeholder="Cole aqui…"></textarea></div>
+      <div class="actions"><button class="btn pri full" id="colaLer">Ler e preencher</button></div>`);
+    setTimeout(() => $("#colaTxt").focus(), 250);
+    $("#colaLer").onclick = async () => {
+      const txt = $("#colaTxt").value.trim(); if(!txt){ toast("Cole o texto primeiro."); return; }
+      const b = $("#colaLer"); b.disabled = true; b.textContent = "Lendo…";
+      let lista, viaIA = true;
+      try{ lista = await lerComIA(txt); if(!lista.length) throw new Error("vazio"); }
+      catch(e){ console.warn("IA:", e); lista = lerSimples(txt); viaIA = false; }
+      revisar(lista, viaIA);
+    };
+  }
+  function revisar(lista, viaIA){
+    const opt = (arr, v) => arr.map(x=>`<option ${x===v?"selected":""}>${esc(x)}</option>`).join("");
+    const bloco = (j, k) => {
+      const known = !j.cliente || CLIENTES.includes(j.cliente);
+      const c = dataConflitos(j.dataEntrega);
+      return `<div class="pj" data-k="${k}">
+        <div class="pj-h"><b>Job ${k+1}</b>${lista.length>1?`<button class="back" type="button" data-rmk="${k}">Remover</button>`:""}</div>
+        <div class="fld"><label>Cliente</label><select class="pCli"><option value="">Selecione…</option>${opt(CLIENTES, j.cliente)}${!known?`<option selected>${esc(j.cliente)}</option>`:""}</select></div>
+        <div class="fld"><label>O que é o job</label><input class="pTit" maxlength="140" value="${esc(j.titulo)}"></div>
+        <div class="row2"><div class="fld"><label>Tipo</label><select class="pTipo"><option value="">—</option>${opt(TIPOS, j.tipo)}</select></div>
+          <div class="fld"><label>Quem pediu</label><input class="pSol" maxlength="40" value="${esc(j.solicitante||"")}" placeholder="ex.: Aline"></div></div>
+        <div class="row2"><div class="fld"><label>Entrega</label><input type="date" class="pData" value="${esc(j.dataEntrega||"")}"></div>
+          <div class="fld"><label>Horário</label><input type="time" class="pHora" value="${esc(j.hora||"")}"></div></div>
+        ${c?`<div class="warnbox on" style="margin:0 0 8px">⚠️ ${c}</div>`:""}
+        <div class="fld"><label>Briefing</label><textarea class="pObs" rows="3" maxlength="2000">${esc(j.obs||"")}</textarea></div>
+      </div>`;
+    };
+    openSheet(`
+      <div class="sh-head"><h2>Revisar <span class="ser">${lista.length>1?lista.length+" jobs":"job"}</span></h2><button class="back" data-close>Fechar</button></div>
+      ${viaIA ? "" : `<div class="card note">Não consegui usar a IA agora, então fiz uma leitura simples. Confira os campos.</div>`}
+      <form id="revForm">${lista.map(bloco).join("")}
+      <div class="actions"><button class="btn pri full" type="submit">Salvar ${lista.length>1?lista.length+" jobs":"job"}</button></div></form>`);
+    $("#sheetBody").onclick = e => { const r = e.target.closest("[data-rmk]"); if(!r) return; lista.splice(+r.dataset.rmk, 1); revisar(lista, viaIA); };
+    $("#revForm").onsubmit = async ev => {
+      ev.preventDefault();
+      const itens = [...document.querySelectorAll(".pj")].map(el => ({
+        cliente: el.querySelector(".pCli").value, titulo: el.querySelector(".pTit").value.trim(), tipo: el.querySelector(".pTipo").value || null,
+        dataEntrega: el.querySelector(".pData").value, hora: el.querySelector(".pHora").value || null, obs: el.querySelector(".pObs").value.trim() || null,
+        solicitante: el.querySelector(".pSol").value.trim() || null }));
+      const falta = itens.findIndex(x => !x.cliente || !x.titulo || !x.dataEntrega);
+      if(falta >= 0){ toast(`Job ${falta+1}: preencha cliente, job e data.`); return; }
+      try{
+        for(const x of itens) await api.create({ ...x, link: null, status: "novo", enviadoPor: { uid: me.uid, nome: x.solicitante || me.nome, email: me.email }, criadoEm: new Date().toISOString() });
+        toast(itens.length > 1 ? `${itens.length} jobs salvos ✓` : "Job salvo ✓"); closeSheet();
+        const d = parseISO(itens[0].dataEntrega); view = new Date(d.getFullYear(), d.getMonth(), 1); render();
+      }catch(err){ toast("Não consegui salvar: " + (err.code||err.message)); }
+    };
+  }
+  function dataConflitos(data){
+    const c = data ? conflitos(data) : [];
+    return c.length ? `Já ${c.length===1?"tem 1 job":`tem ${c.length} jobs`} em ${fmtD(data)}: ${c.map(j=>esc(j.titulo)).join(", ")}` : "";
+  }
+  $("#colarBtn").onclick = () => openColar();
 
   function openForm(j){
     const v = j || { dataEntrega: "" };
@@ -402,7 +523,7 @@ input[type=date],input[type=time]{min-height:46px}
       <div class="card det"><h3>${esc(j.titulo)}</h3>
         <div class="pills"><span class="pill">${esc(j.cliente)}</span>${j.tipo?`<span class="pill">${esc(j.tipo)}</span>`:""}<span class="pill ${st[1]}">${st[0]}</span></div>
         <dl><dt>Entrega</dt><dd>${WD[d.getDay()]}, ${fmtD(j.dataEntrega)}${j.hora?" · "+j.hora:""}</dd>
-        <dt>Enviado por</dt><dd>${meuJob(j)?"você":esc(j.enviadoPor&&j.enviadoPor.nome||"—")}${dono && j.enviadoPor && j.enviadoPor.email && !meuJob(j) ? ` <span style="color:var(--tinta3)">· ${esc(j.enviadoPor.email)}</span>` : ""}</dd>
+        <dt>Pedido por</dt><dd>${j.solicitante ? esc(j.solicitante)+" <span style='color:var(--tinta3)'>· lançado pelo Pedro</span>" : meuJob(j)?"você":esc(j.enviadoPor&&j.enviadoPor.nome||"—")}${dono && j.enviadoPor && j.enviadoPor.email && !meuJob(j) ? ` <span style="color:var(--tinta3)">· ${esc(j.enviadoPor.email)}</span>` : ""}</dd>
         ${j.link?`<dt>Arquivos</dt><dd><a href="${esc(j.link)}" target="_blank" rel="noopener" style="color:var(--tinta)">abrir link</a></dd>`:""}</dl>
         ${j.obs?`<p>${esc(j.obs)}</p>`:""}</div>
       ${dono ? `<div class="sec-t" style="margin:6px 0 8px">Status (a equipe vê)</div>
@@ -548,12 +669,12 @@ input[type=date],input[type=time]{min-height:46px}
       } else setStatus("Erro de conexão");
     });
     $("#hSub").textContent = dono ? "Jobs da agência · painel do Pedro" : `Olá, ${primeiroNome(me.nome)} · Horn Films`;
-    if(dono) $("#hTitle").innerHTML = 'Horn <span class="ser">jobs</span>';
+    if(dono){ $("#hTitle").innerHTML = 'Horn <span class="ser">jobs</span>'; $("#colarBtn").style.display = ""; $("#novoBtn").textContent = "+ Novo job"; }
   }
   if("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(()=>{});
   render();
   boot().catch(e => { console.error(e); setStatus("Erro ao carregar"); });
-  window.__testSetJobs = (list, eu, d) => { jobs = list; me = eu; dono = !!d; $("#login").classList.remove("on"); api = { create: async d => { jobs.push({id:"n"+jobs.length, ...d}); render(); }, update: async()=>{}, remove: async()=>{}, logout: async()=>{} }; render(); };
+  window.__lerSimples = lerSimples; window.__revisar = revisar; window.__testSetJobs = (list, eu, d) => { jobs = list; me = eu; dono = !!d; if(dono) $("#colarBtn").style.display = ""; $("#login").classList.remove("on"); api = { create: async d => { jobs.push({id:"n"+jobs.length, ...d}); render(); }, update: async()=>{}, remove: async()=>{}, logout: async()=>{} }; render(); };
 })();
 </script>
 </body>
