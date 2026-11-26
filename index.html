@@ -386,54 +386,26 @@ input[type=date],input[type=time]{min-height:46px}
     const TIPO_KW = [["Reels",/reels?|stories|story/],["Motion",/motion|anima/],["Telas / painel",/tela|painel|led/],["Arte / post",/\barte|post|carrossel|feed/],["Captação",/captac|gravac|filmag/],["Roteiro",/roteiro/],["Edição",/edic|editar|corte/],["Vídeo",/video/]];
     const tipo = (TIPO_KW.find(([,r]) => r.test(t)) || [""])[0];
     const linhas = String(texto).split(/\n+/).map(x=>x.replace(/^\[[^\]]*\]\s*[^:]{0,40}:\s*/, "").trim()).filter(Boolean);
-    const titulo = (linhas.find(l => l.length > 6) || linhas[0] || "").slice(0, 90);
+    const limpaTit = l => l.replace(/^(oi|ol[aá]|bom dia|boa tarde|boa noite|e a[ií])[,!.\s]*/i, "").replace(/^pedro[,!:\s]+/i, "")
+      .replace(/^(a gente |n[oó]s )?(preciso|precisamos|pode(ria)? (me )?fazer|consegue fazer|tem como fazer|queria|quer[ií]amos)( de)?\s+(um|uma|uns|umas|o|a)?\s*/i, "")
+      .replace(/[,.;]?\s*(pra|para|com)? ?entrega.*$/i, "").replace(/[,.;]?\s*(at[eé]|pra|para) (hoje|amanh[ãa]|segunda|ter[çc]a|quarta|quinta|sexta|s[áa]bado|domingo|dia \d+|\d{1,2}\/\d{1,2}).*$/i, "").trim();
+    let titulo = limpaTit(linhas.find(l => l.length > 6) || linhas[0] || "");
+    titulo = (titulo.charAt(0).toUpperCase() + titulo.slice(1)).slice(0, 90);
     return [{ cliente, titulo, tipo, dataEntrega: data ? iso(data) : "", hora: hora || "", obs: String(texto).trim().slice(0, 2000), solicitante: quem }];
-  }
-  async function lerComIA(texto){
-    const cfg = window.ASSESSOR_CONFIG && window.ASSESSOR_CONFIG.firebase;
-    if(!cfg) throw new Error("sem-config");
-    const V = "12.6.0", b = `https://www.gstatic.com/firebasejs/${V}/`;
-    const [{ initializeApp, getApps }, AI] = await Promise.all([import(b+"firebase-app.js"), import(b+"firebase-ai.js")]);
-    const app = getApps().find(a => a.name === "ia") || initializeApp(cfg, "ia");
-    const ai = AI.getAI(app, { backend: new AI.GoogleAIBackend() });
-    const S = AI.Schema;
-    const schema = S.object({ properties: { jobs: S.array({ items: S.object({ properties: {
-      cliente: S.string(), titulo: S.string(), tipo: S.string(), dataEntrega: S.string(), hora: S.string(), obs: S.string(), solicitante: S.string() } }) }) } });
-    const model = AI.getGenerativeModel(ai, { model: "gemini-2.5-flash", generationConfig: { responseMimeType: "application/json", responseSchema: schema, temperature: 0.1 } });
-    const d = new Date();
-    const prompt = `Você organiza os pedidos de job que a agência manda para Pedro Horn (editor e motion designer, Guarapuava-PR).
-Hoje é ${WD[d.getDay()]}, ${iso(d)}. Leia o texto colado (pode ser conversa de WhatsApp, e-mail ou áudio transcrito) e extraia TODOS os jobs pedidos, um item por entrega diferente.
-Regras:
-- "cliente": use exatamente um destes nomes se o texto citar (mesmo abreviado ou com erro): ${CLIENTES.join(", ")}. Se for outro cliente, escreva o nome como aparece. Se não der para saber, "".
-- "titulo": curto e claro (ex.: "Reels lançamento torre 2"), sem data.
-- "tipo": um de ${TIPOS.join(", ")}, ou "".
-- "dataEntrega": YYYY-MM-DD. Resolva "hoje", "amanhã", "sexta", "dia 20", "semana que vem" a partir de hoje (dia da semana = próxima ocorrência). Se não houver prazo, "".
-- "hora": HH:MM se houver horário de entrega, senão "".
-- "obs": briefing útil em tópicos curtos (formatos, textos, referências, quantidades, observações). Não repita título e data.
-- "solicitante": primeiro nome de quem pediu, se aparecer (ex.: remetente no WhatsApp), senão "".
-Texto:
-"""${texto}"""`;
-    const r = await model.generateContent(prompt);
-    const out = JSON.parse(r.response.text());
-    return (out.jobs || []).filter(j => j.titulo || j.cliente);
   }
   function openColar(){
     openSheet(`
       <div class="sh-head"><h2>Colar <span class="ser">mensagem</span></h2><button class="back" data-close>Fechar</button></div>
-      <div class="card note">Cole tudo o que veio sobre o job (WhatsApp, e-mail, transcrição de áudio). A IA separa cada job e preenche os campos para você revisar.</div>
+      <div class="card note">Cole tudo o que veio sobre o job (WhatsApp, e-mail, transcrição de áudio). O site encontra cliente, tipo, data, horário e quem pediu, e você revisa antes de salvar.</div>
       <div class="fld"><textarea id="colaTxt" rows="9" placeholder="Cole aqui…"></textarea></div>
       <div class="actions"><button class="btn pri full" id="colaLer">Ler e preencher</button></div>`);
     setTimeout(() => $("#colaTxt").focus(), 250);
     $("#colaLer").onclick = async () => {
       const txt = $("#colaTxt").value.trim(); if(!txt){ toast("Cole o texto primeiro."); return; }
-      const b = $("#colaLer"); b.disabled = true; b.textContent = "Lendo…";
-      let lista, viaIA = true;
-      try{ lista = await lerComIA(txt); if(!lista.length) throw new Error("vazio"); }
-      catch(e){ console.warn("IA:", e); lista = lerSimples(txt); viaIA = false; }
-      revisar(lista, viaIA);
+      revisar(lerSimples(txt));
     };
   }
-  function revisar(lista, viaIA){
+  function revisar(lista){
     const opt = (arr, v) => arr.map(x=>`<option ${x===v?"selected":""}>${esc(x)}</option>`).join("");
     const bloco = (j, k) => {
       const known = !j.cliente || CLIENTES.includes(j.cliente);
@@ -452,10 +424,10 @@ Texto:
     };
     openSheet(`
       <div class="sh-head"><h2>Revisar <span class="ser">${lista.length>1?lista.length+" jobs":"job"}</span></h2><button class="back" data-close>Fechar</button></div>
-      ${viaIA ? "" : `<div class="card note">Não consegui usar a IA agora, então fiz uma leitura simples. Confira os campos.</div>`}
+      <div class="card note">Confira os campos e ajuste o título, se precisar.</div>
       <form id="revForm">${lista.map(bloco).join("")}
       <div class="actions"><button class="btn pri full" type="submit">Salvar ${lista.length>1?lista.length+" jobs":"job"}</button></div></form>`);
-    $("#sheetBody").onclick = e => { const r = e.target.closest("[data-rmk]"); if(!r) return; lista.splice(+r.dataset.rmk, 1); revisar(lista, viaIA); };
+    $("#sheetBody").onclick = e => { const r = e.target.closest("[data-rmk]"); if(!r) return; lista.splice(+r.dataset.rmk, 1); revisar(lista); };
     $("#revForm").onsubmit = async ev => {
       ev.preventDefault();
       const itens = [...document.querySelectorAll(".pj")].map(el => ({
