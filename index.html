@@ -265,7 +265,7 @@ input[type=date],input[type=time]{min-height:46px}
   <div id="lista"></div>
 </div>
 
-<div class="fabwrap"><div class="fabrow"><button class="btn cola" id="colarBtn" style="display:none">📋 Colar mensagem</button><button class="btn" id="novoBtn">+ Enviar novo job</button></div></div>
+<div class="fabwrap"><button class="btn" id="novoBtn">+ Enviar novo job</button></div>
 
 <div class="sheet-bg" id="sheetBg"></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="grab"></div><div id="sheetBody"></div></div>
@@ -447,13 +447,13 @@ input[type=date],input[type=time]{min-height:46px}
     const c = data ? conflitos(data) : [];
     return c.length ? `Já ${c.length===1?"tem 1 job":`tem ${c.length} jobs`} em ${fmtD(data)}: ${c.map(j=>esc(j.titulo)).join(", ")}` : "";
   }
-  $("#colarBtn").onclick = () => openColar();
 
   function openForm(j){
     const v = j || { dataEntrega: "" };
     const known = !v.cliente || CLIENTES.includes(v.cliente);
     openSheet(`
       <div class="sh-head"><h2>${j ? "Editar" : "Novo"} <span class="ser">job</span></h2><button class="back" data-close>Fechar</button></div>
+      ${!j && dono ? `<button class="btn sec full" type="button" id="irColar" style="margin-bottom:14px">📋 Colar mensagem e preencher sozinho</button>` : ""}
       <form id="jobForm">
         <div class="sec-t">Sobre o job</div>
         <div class="fld"><label>Cliente</label>
@@ -471,6 +471,7 @@ input[type=date],input[type=time]{min-height:46px}
       </form>`);
     const upd = () => { const w=$("#warn"), html=avisoHTML($("#fData").value, j&&j.id); w.innerHTML=html; w.classList.toggle("on", !!html); };
     $("#fData").addEventListener("change", upd); upd();
+    if($("#irColar")) $("#irColar").onclick = () => openColar();
     $("#fCli").addEventListener("change", e => { $("#fCliOutro").style.display = e.target.value==="__outro" ? "" : "none"; });
     $("#jobForm").addEventListener("submit", async e => {
       e.preventDefault();
@@ -641,12 +642,12 @@ input[type=date],input[type=time]{min-height:46px}
       } else setStatus("Erro de conexão");
     });
     $("#hSub").textContent = dono ? "Jobs da agência · painel do Pedro" : `Olá, ${primeiroNome(me.nome)} · Horn Films`;
-    if(dono){ $("#hTitle").innerHTML = 'Horn <span class="ser">jobs</span>'; $("#colarBtn").style.display = ""; $("#novoBtn").textContent = "+ Novo job"; }
+    if(dono){ $("#hTitle").innerHTML = 'Horn <span class="ser">jobs</span>'; $("#novoBtn").textContent = "+ Novo job"; }
   }
   if("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(()=>{});
   render();
   boot().catch(e => { console.error(e); setStatus("Erro ao carregar"); });
-  window.__lerSimples = lerSimples; window.__revisar = revisar; window.__testSetJobs = (list, eu, d) => { jobs = list; me = eu; dono = !!d; if(dono) $("#colarBtn").style.display = ""; $("#login").classList.remove("on"); api = { create: async d => { jobs.push({id:"n"+jobs.length, ...d}); render(); }, update: async()=>{}, remove: async()=>{}, logout: async()=>{} }; render(); };
+  window.__lerSimples = lerSimples; window.__revisar = revisar; window.__testSetJobs = (list, eu, d) => { jobs = list; me = eu; dono = !!d;  $("#login").classList.remove("on"); api = { create: async d => { jobs.push({id:"n"+jobs.length, ...d}); render(); }, update: async()=>{}, remove: async()=>{}, logout: async()=>{} }; render(); };
 })();
 </script>
 </body>

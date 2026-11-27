@@ -1,5 +1,5 @@
 // Service worker: deixa o app abrir rápido e funcionar offline (os dados sincronizam quando voltar a internet)
-const CACHE = "assessor-horn-v6";
+const CACHE = "assessor-horn-v7";
 const SHELL = ["./", "./index.html", "./config.js", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => {
